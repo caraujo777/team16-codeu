@@ -102,9 +102,38 @@ public class Datastore {
 
     return getMessagesFromResults(results);
  }
+
+ /**
+   * Gets the total number of messages for all users. 
+   *
+   * @return an integer representing the total number of messages 
+   * posted by all users. 
+   */
  public int getTotalMessageCount(){
    Query query = new Query("Message");
    PreparedQuery results = datastore.prepare(query);
    return results.countEntities(FetchOptions.Builder.withLimit(1000));
  }
+
+ /** 
+  * Gets the average length of all users' messages. Note -- still in progress.
+
+  @return a decimal number representing the average length of all
+  users' messages.
+
+
+public int getAvgMessageLength() {
+   List<Message> messageList = getAllMessages(); 
+   Message msg; 
+   int length = 0;
+   for (int i=0; i< messageList.size(); i++) {
+      msg = messageList.get(i);
+      length+= msg.length; // does not work - need to find a way to get msg length 
+   }
+
+   int avgLen = length/getTotalMessageCount();
+
+    return avgLen;
+}
+  */
 }

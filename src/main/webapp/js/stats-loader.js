@@ -1,3 +1,9 @@
+/* Week 2: Stats Page
+Author: Anna Kawakami
+Date: 03/02/19
+*/
+
+//Retrieves the number of messages that all users have posted. 
 function fetchStats(){
     const url = '/stats';
     fetch(url).then((response) => {
