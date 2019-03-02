@@ -20,7 +20,7 @@ import com.google.gson.JsonObject;
  */
 @WebServlet("/stats")
 public class StatsPageServlet extends HttpServlet{
-  private static final long serialVersionUID = 1L;
+
   private Datastore datastore;
 
   @Override
