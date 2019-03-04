@@ -26,7 +26,6 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import com.google.appengine.api.datastore.FetchOptions;
 
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
@@ -43,65 +42,46 @@ public class Datastore {
     messageEntity.setProperty("user", message.getUser());
     messageEntity.setProperty("text", message.getText());
     messageEntity.setProperty("timestamp", message.getTimestamp());
+    messageEntity.setProperty("recipient", message.getRecipient());
 
     datastore.put(messageEntity);
   }
 
-  /**
-   * Iterates through a result and return a list of messages
-   *
-   * @return list of messages
-   */
-  public List<Message> getMessagesFromResults(PreparedQuery results){
-    List<Message> messages = new ArrayList<>();
-
-    for (Entity entity : results.asIterable()) {
-     try {
-      String idString = entity.getKey().getName();
-      UUID id = UUID.fromString(idString);
-      String user = (String) entity.getProperty("user");
-      String text = (String) entity.getProperty("text");
-      long timestamp = (long) entity.getProperty("timestamp");
-
-      Message message = new Message(id, user, text, timestamp);
-      messages.add(message);
-     } catch (Exception e) {
-      System.err.println("Error reading message.");
-      System.err.println(entity.toString());
-      e.printStackTrace();
-     }
-    }
-    return messages;
-  }
   /**
    * Gets messages posted by a specific user.
    *
    * @return a list of messages posted by the user, or empty list if user has never posted a
    *     message. List is sorted by time descending.
    */
-  public List<Message> getMessages(String user) {
+  public List<Message> getMessages(String recipient) {
+    List<Message> messages = new ArrayList<>();
+
     Query query =
         new Query("Message")
-            .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
+            .setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
             .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
-    return getMessagesFromResults(results);
+    for (Entity entity : results.asIterable()) {
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String user = (String) entity.getProperty("user");
+
+        String text = (String) entity.getProperty("text");
+        long timestamp = (long) entity.getProperty("timestamp");
+
+        Message message = new Message(id, user, text, timestamp, recipient);
+        messages.add(message);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+     return messages;
   }
 
-  /**
-   * Gets messages posted by a all users.
-   *
-   * @return a list of messages posted by all users, or empty list if no one
-   * has posted a message. List is sorted by time descending.
-   */
-  public List<Message> getAllMessages(){
-    Query query = new Query("Message")
-      .addSort("timestamp", SortDirection.DESCENDING);
-    PreparedQuery results = datastore.prepare(query);
-
-    return getMessagesFromResults(results);
- }
 
  /**
    * Gets the total number of messages for all users. 
@@ -115,25 +95,4 @@ public class Datastore {
    return results.countEntities(FetchOptions.Builder.withLimit(1000));
  }
 
- /** 
-  * Gets the average length of all users' messages. Note -- still in progress.
-
-  @return a decimal number representing the average length of all
-  users' messages.
-
-
-public int getAvgMessageLength() {
-   List<Message> messageList = getAllMessages(); 
-   Message msg; 
-   int length = 0;
-   for (int i=0; i< messageList.size(); i++) {
-      msg = messageList.get(i);
-      length+= msg.length; // does not work - need to find a way to get msg length 
-   }
-
-   int avgLen = length/getTotalMessageCount();
-
-    return avgLen;
-}
-  */
 }
