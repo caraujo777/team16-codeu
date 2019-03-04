@@ -114,8 +114,5 @@ function buildUI() {
   setPageTitle();
   showMessageFormIfLoggedIn();
   fetchMessages();
-<<<<<<< HEAD
-=======
   fetchAboutMe();
->>>>>>> 6b43b610da3d2caa4afcacbb397ae9c83d26fed5
 }
