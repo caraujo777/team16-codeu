@@ -79,9 +79,9 @@ public class Datastore {
         e.printStackTrace();
       }
     }
-
-    return messages;
+     return messages;
   }
+
 
   /** Stores User in Datastore. */
   public void storeUser(User user) {
@@ -108,4 +108,16 @@ public class Datastore {
     return user;
 
   }
+  
+ /**
+   * Gets the total number of messages for all users. 
+   *
+   * @return an integer representing the total number of messages 
+   * posted by all users. 
+   */
+ public int getTotalMessageCount(){
+   Query query = new Query("Message");
+   PreparedQuery results = datastore.prepare(query);
+   return results.countEntities(FetchOptions.Builder.withLimit(1000));
+ }
 }
