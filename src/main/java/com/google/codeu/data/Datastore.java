@@ -23,6 +23,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.FetchOptions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -48,6 +49,34 @@ public class Datastore {
   }
 
   /**
+  * Iterates through a result and return a list of messages
+  *
+  * @return list of messages
+  */
+  public List<Message> getMessagesFromResults(PreparedQuery results){
+    List<Message> messages = new ArrayList<>();
+
+    for (Entity entity : results.asIterable()) {
+     try {
+      String idString = entity.getKey().getName();
+      UUID id = UUID.fromString(idString);
+      String user = (String) entity.getProperty("user");
+      String text = (String) entity.getProperty("text");
+      long timestamp = (long) entity.getProperty("timestamp");
+      String recipient = (String) entity.getProperty("recipient");
+
+      Message message = new Message(id, user, text, timestamp, recipient);
+      messages.add(message);
+     } catch (Exception e) {
+      System.err.println("Error reading message.");
+      System.err.println(entity.toString());
+      e.printStackTrace();
+     }
+    }
+    return messages;
+  }
+
+  /**
    * Gets messages posted by a specific user.
    *
    * @return a list of messages posted by the user, or empty list if user has never posted a
@@ -62,26 +91,22 @@ public class Datastore {
             .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
-    for (Entity entity : results.asIterable()) {
-      try {
-        String idString = entity.getKey().getName();
-        UUID id = UUID.fromString(idString);
-        String user = (String) entity.getProperty("user");
-
-        String text = (String) entity.getProperty("text");
-        long timestamp = (long) entity.getProperty("timestamp");
-
-        Message message = new Message(id, user, text, timestamp, recipient);
-        messages.add(message);
-      } catch (Exception e) {
-        System.err.println("Error reading message.");
-        System.err.println(entity.toString());
-        e.printStackTrace();
-      }
-    }
-     return messages;
+    return getMessagesFromResults(results);
   }
 
+  /**
+  * Gets messages posted by a all users.
+  *
+  * @return a list of messages posted by all users, or empty list if no one
+  * has posted a message. List is sorted by time descending.
+  */
+  public List<Message> getAllMessages(){
+    Query query = new Query("Message")
+      .addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    return getMessagesFromResults(results);
+  }
 
   /** Stores User in Datastore. */
   public void storeUser(User user) {
@@ -101,19 +126,19 @@ public class Datastore {
     if (userEntity == null) {
       return null;
     }
-  
+
     String aboutMe = (String) userEntity.getProperty("aboutMe");
     User user = new User(email, aboutMe);
 
     return user;
 
   }
-  
+
  /**
-   * Gets the total number of messages for all users. 
+   * Gets the total number of messages for all users.
    *
-   * @return an integer representing the total number of messages 
-   * posted by all users. 
+   * @return an integer representing the total number of messages
+   * posted by all users.
    */
  public int getTotalMessageCount(){
    Query query = new Query("Message");
