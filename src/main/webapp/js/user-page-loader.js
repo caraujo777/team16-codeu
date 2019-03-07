@@ -42,8 +42,10 @@ function showMessageFormIfLoggedIn() {
           const messageForm = document.getElementById('message-form');
           messageForm.action = '/messages?recipient=' + parameterUsername;
           messageForm.classList.remove('hidden');
-          const aboutMeForm = document.getElementById('about-me-form');
-          aboutMeForm.classList.remove('hidden');
+          if (loginStatus.username == parameterUsername) {
+            const aboutMeForm = document.getElementById('about-me-form');
+            aboutMeForm.classList.remove('hidden');
+          }
         }
       
       });
