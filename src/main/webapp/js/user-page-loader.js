@@ -47,7 +47,7 @@ function showMessageFormIfLoggedIn() {
             aboutMeForm.classList.remove('hidden');
           }
         }
-      
+
       });
 }
 
@@ -78,7 +78,7 @@ function fetchAboutMe() {
   const url = '/about?user=' + parameterUsername;
   fetch(url)
       .then((response) => {
-        return response.text(); 
+        return response.text();
       })
       .then((aboutMe) => {
         const aboutMeContainer = document.getElementById('about-me-container');
