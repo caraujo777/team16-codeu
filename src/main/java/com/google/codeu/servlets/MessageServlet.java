@@ -46,14 +46,14 @@ public class MessageServlet extends HttpServlet {
   }
 
   private float getSentimentScore(String text) throws IOException {
-  Document doc = Document.newBuilder()
-      .setContent(text).setType(Type.PLAIN_TEXT).build();
+    Document doc = Document.newBuilder()
+    .setContent(text).setType(Type.PLAIN_TEXT).build();
 
-  LanguageServiceClient languageService = LanguageServiceClient.create();
-  Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
-  languageService.close();
+    LanguageServiceClient languageService = LanguageServiceClient.create();
+    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+    languageService.close();
 
-  return sentiment.getScore();
+    return sentiment.getScore();
   }
 
   /**

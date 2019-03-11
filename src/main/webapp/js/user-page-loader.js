@@ -47,7 +47,6 @@ function showMessageFormIfLoggedIn() {
             aboutMeForm.classList.remove('hidden');
           }
         }
-
       });
 }
 
@@ -96,10 +95,9 @@ function fetchAboutMe() {
 function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
-  headerDiv.appendChild(document.createTextNode(
-      message.user + ' - ' +
-      new Date(message.timestamp) +
-      ' Sentiment Score: [' + message.sentimentScore + ']'));
+  var my_message = message.user + ' - ' + new Date(message.timestamp) +
+      ' Sentiment Score: [' + message.sentimentScore + ']';
+  headerDiv.appendChild(document.createTextNode(my_message));
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
   bodyDiv.innerHTML = message.text;
