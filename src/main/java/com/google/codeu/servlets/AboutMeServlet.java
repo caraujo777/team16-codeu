@@ -12,7 +12,7 @@ import com.google.codeu.data.Datastore;
 import com.google.codeu.data.User;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
-import org.commonmark.node.*;
+import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
@@ -20,7 +20,6 @@ import org.commonmark.renderer.html.HtmlRenderer;
 
 @WebServlet("/about")
 public class AboutMeServlet extends HttpServlet {
-
   private Datastore datastore;
 
   @Override
@@ -31,22 +30,16 @@ public class AboutMeServlet extends HttpServlet {
   /** Responds with the "about me" section for a particular user */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
     response.setContentType("text/html");
-
     String user = request.getParameter("user");
-
     if(user == null || user.equals("")) {
       // Request is invalid, return empty response
       return;
     }
-
     User userData = datastore.getUser(user);
-
     if(userData == null || userData.getAboutMe() == null) {
       return;
     }
-
     response.getOutputStream().println(userData.getAboutMe());
   }
 
@@ -69,7 +62,6 @@ public class AboutMeServlet extends HttpServlet {
 
     User user = new User(userEmail, aboutMe);
     datastore.storeUser(user);
-
     response.sendRedirect("/user-page.html?user=" + userEmail);
   }
 }
