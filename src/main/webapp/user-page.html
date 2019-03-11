@@ -22,6 +22,7 @@ limitations under the License.
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/user-page.css">
     <script src="/js/user-page-loader.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
   </head>
   <body onload="buildUI();">
     <nav>
@@ -30,26 +31,26 @@ limitations under the License.
       </ul>
     </nav>
     <h1 id="page-title">User Page</h1>
-   
+
     <div id="about-me-container">Loading...</div>
-   
+
     <form id="about-me-form" action="/about" method="POST" class="hidden">
-     <textarea name="about-me" placeholder="about me" rows=4 required></textarea>
-     <br/>
+      </br>
+      Modify about me info:
+     <textarea id="about-me-input" name="about-me" rows=4 required></textarea>
      <input type="submit" value="Submit">
-    </form> 
-   
-     <form id="message-form" action="/messages" method="POST" class="hidden">
-      Enter a new message:
-      <br/>
-      <textarea name="text" id="message-input"></textarea>
-      <br/>
+    </form>
+
+    <form id="message-form" action="/messages" method="POST" class="hidden">
+      </br>
+      Share something with the community:
+      <textarea id="message-input" name="text"></textarea>
       <input type="submit" value="Submit">
     </form>
-    <hr/>
-    
-  
-    
+  <hr/>
+
+
+
     <div id="message-container">Loading...</div>
   </body>
 </html>
