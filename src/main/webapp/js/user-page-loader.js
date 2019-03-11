@@ -47,7 +47,6 @@ function showMessageFormIfLoggedIn() {
             aboutMeForm.classList.remove('hidden');
           }
         }
-      
       });
 }
 
@@ -72,13 +71,12 @@ function fetchMessages() {
       });
 }
 
-
 /** Fetches about me and adds to the page. */
 function fetchAboutMe() {
   const url = '/about?user=' + parameterUsername;
   fetch(url)
       .then((response) => {
-        return response.text(); 
+        return response.text();
       })
       .then((aboutMe) => {
         const aboutMeContainer = document.getElementById('about-me-container');
@@ -88,6 +86,7 @@ function fetchAboutMe() {
         aboutMeContainer.innerHTML = aboutMe;
   });
 }
+
 /**
  * Builds an element that displays the message.
  * @param {Message} message
@@ -117,4 +116,8 @@ function buildUI() {
   showMessageFormIfLoggedIn();
   fetchMessages();
   fetchAboutMe();
+  const configMessage = {removePlugins: ['Heading', 'List', 'ImageUpload', 'Table']};
+  const configAboutMe = {removePlugins: ['ImageUpload', 'Table']};
+  ClassicEditor.create(document.getElementById('message-input'), configMessage);
+  ClassicEditor.create(document.getElementById('about-me-input'), configAboutMe);
 }
