@@ -1,5 +1,5 @@
-PATH="Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
-export PATH
+PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
+export PATH 
 
 export PATH=$PATH:/Users/annakawakami/Downloads/apache-maven-3.6.0/bin:$PATH
 
