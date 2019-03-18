@@ -116,8 +116,7 @@ function buildUI() {
   showMessageFormIfLoggedIn();
   fetchMessages();
   fetchAboutMe();
-  const configMessage = {removePlugins: ['Heading', 'List', 'ImageUpload', 'Table']};
-  const configAboutMe = {removePlugins: ['ImageUpload', 'Table']};
-  ClassicEditor.create(document.getElementById('message-input'), configMessage);
-  ClassicEditor.create(document.getElementById('about-me-input'), configAboutMe);
+  const config = {removePlugins: ['Heading', 'List', 'ImageUpload', 'Table', 'MediaEmbed']};
+  ClassicEditor.create(document.getElementById('message-input'), config);
+  ClassicEditor.create(document.getElementById('about-me-input'), config);
 }
