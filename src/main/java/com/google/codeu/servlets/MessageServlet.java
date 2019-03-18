@@ -95,7 +95,7 @@ public class MessageServlet extends HttpServlet {
     }
 
     String user = userService.getCurrentUser().getEmail();
-    String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+    String userText = Jsoup.clean(request.getParameter("text"), Whitelist.basicWithImages());
     String recipient = request.getParameter("recipient");
     float sentimentScore = this.getSentimentScore(userText);
 
@@ -103,16 +103,12 @@ public class MessageServlet extends HttpServlet {
     String replacement = "<img src=\"$1\" />";
     String textWithImagesReplaced = userText.replaceAll(regex, replacement);
 
-<<<<<<< HEAD
-    Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore);
-=======
     Parser parser = Parser.builder().build();
-    Node document = parser.parse(text);
+    Node document = parser.parse(textWithImagesReplaced);
     HtmlRenderer renderer = HtmlRenderer.builder().build();
-    text = renderer.render(document);
+    String sanitizedText = renderer.render(document);
 
-    Message message = new Message(user, text, recipient);
->>>>>>> Add markdown input style for user  (#35)
+    Message message = new Message(user, sanitizedText, recipient, sentimentScore);
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + recipient);
