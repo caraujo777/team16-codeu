@@ -60,11 +60,6 @@ public class AboutMeServlet extends HttpServlet {
     HtmlRenderer renderer = HtmlRenderer.builder().build();
     aboutMe = renderer.render(document);
 
-    Parser parser = Parser.builder().build();
-    Node document = parser.parse(aboutMe);
-    HtmlRenderer renderer = HtmlRenderer.builder().build();
-    aboutMe = renderer.render(document);
-
     User user = new User(userEmail, aboutMe);
     datastore.storeUser(user);
     response.sendRedirect("/user-page.html?user=" + userEmail);
