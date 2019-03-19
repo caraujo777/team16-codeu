@@ -1,9 +1,9 @@
 package com.google.codeu.data;
 
 public class User {
-
+  
   private String email, aboutMe;
-
+  
   public User(String email, String aboutMe) {
     this.email = email;
     this.aboutMe = aboutMe;
