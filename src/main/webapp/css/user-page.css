@@ -45,3 +45,10 @@
 .hidden {
   display: none;
 }
+
+/* Makes sure the image does not overflow */
+.message-body img {
+  display: block;
+  margin-top: 25px;
+  max-width: 75%;
+}
