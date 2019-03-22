@@ -1,0 +1,35 @@
+<!-- 
+Description: Map showing locations public facilities in the LA, California area
+Author: Anna Kawakami 
+Created: 03/20/19
+Last Edited: 03/20/19-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> LA Public Leisure Facilities </title>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfEwbIKOYAeqpy7rd0w4DKrz0sNmSbeDg "></script>
+        <script src="/js/facilitiesmap.js"></script>
+        <link rel="stylesheet" href="/css/facilitiesmap.css">
+        <script src="/js/markerclusterer.js"></script>
+    </head>
+    <body onload="createFacilitiesMap();">
+        <h1>LA Public Dog Facilities Locations</h1>
+        <div id="map"></div>
+    </body>
+</html>
+
+<!--
+    Next steps - 
+    1. find new data set 
+        dog parks? 
+        neighborhood names? 
+        colleges? 
+    2. modify code to only show markers within  the 
+    bounds of the maps 
+    3. add info windows to the markers to 
+    display more info -> descriptions of schools or parks
+    4. use different icons for each kind of data
+        dog parks 
+        colleges
+    5. cluster markers so grouped togethre when zoomed out?
+-->

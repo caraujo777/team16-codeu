@@ -1,0 +1,35 @@
+<!-- 
+Description: Map showing locations of boba shops in Manhattan 
+Author: Anna Kawakami 
+Created: 03/17/19
+Last Edited: 03/17/19-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Manhattan Boba Locations </title>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfEwbIKOYAeqpy7rd0w4DKrz0sNmSbeDg "></script>
+        <script src="/js/bobamaps.js"></script>
+        <link rel="stylesheet" href="/css/bobamaps.css">
+    </head>
+    <body onload="createBobaMap();">
+        <h1>Manhattan Boba Locations</h1>
+        <div id="map"></div>
+    </body>
+</html>
+
+<!--
+    Next steps - 
+    1. find new data set 
+        dog parks? 
+        neighborhood names? 
+        colleges? 
+    2. modify code to only show markers within  the 
+    bounds of the maps 
+    3. add info windows to the markers to 
+    display more info -> descriptions of schools or parks
+    4. use different icons for each kind of data
+        dog parks 
+        colleges
+    5. cluster markers so grouped togethre when zoomed out?
+
+-->
