@@ -30,23 +30,30 @@ limitations under the License.
         <li><a href="/">Home</a></li>
       </ul>
     </nav>
-    <h1 id="page-title">User Page</h1>
+
+    <div class="padded rounded panel centered">
+      <h1 id="page-title">User Page</h1>
+    </div>
 
     <div id="about-me-container">Loading...</div>
 
-    <form id="about-me-form" action="/about" method="POST" class="hidden">
-      </br>
-      Modify about me info:
-     <textarea id="about-me-input" name="about-me" rows=4></textarea>
-     <input type="submit" value="Submit">
-    </form>
+    <div class="padded rounded panel">
+      <form id="about-me-form" action="/about" method="POST" class="hidden">
+        </br>
+        Modify about me info:
+       <textarea id="about-me-input" name="about-me" rows=4></textarea>
+       <input type="submit" value="Submit">
+      </form>
+    </div>
 
-    <form id="message-form" action="/messages" method="POST" class="hidden">
-      </br>
-      Share something with the community:
-      <textarea id="message-input" name="text"></textarea>
-      <input type="submit" value="Submit">
-    </form>
+    <div class="padded rounded panel">
+      <form id="message-form" action="/messages" method="POST" class="hidden">
+        </br>
+        Share something with the community:
+        <textarea id="message-input" name="text"></textarea>
+        <input type="submit" value="Submit">
+      </form>
+    </div>
   <hr/>
 
 
