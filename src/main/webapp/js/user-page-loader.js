@@ -45,8 +45,21 @@ function showMessageFormIfLoggedIn() {
           if (loginStatus.username == parameterUsername) {
             const aboutMeForm = document.getElementById('about-me-form');
             aboutMeForm.classList.remove('hidden');
+            fetchImageUploadUrlAndShowForm();
           }
         }
+      });
+}
+
+function fetchImageUploadUrlAndShowForm() {
+  fetch('/image-upload-url')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const messageForm = document.getElementById('message-form');
+        messageForm.action = imageUploadUrl;
+        messageForm.classList.remove('hidden');
       });
 }
 
@@ -101,6 +114,11 @@ function buildMessageDiv(message) {
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
   bodyDiv.innerHTML = message.text;
+
+  if(message.imageUrl) {
+  bodyDiv.innerHTML += '<br/>';
+  bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
+  }
 
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message-div');
