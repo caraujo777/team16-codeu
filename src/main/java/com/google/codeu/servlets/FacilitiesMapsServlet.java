@@ -1,8 +1,6 @@
 package com.google.codeu.servlets;
 
 import java.io.IOException;
-//import java.net.MalformedURLException;
-//import java.net.URL;
 import java.util.Scanner;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,11 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-
-/**
- * Returns facilities locations data as a JSON array, e.g. [{"lat": 38.4404675,
- * "lng": -122.7144313}]
- */
 
 @WebServlet("/dogFacilities-locations")
 public class FacilitiesMapsServlet extends HttpServlet {
@@ -29,17 +22,20 @@ public class FacilitiesMapsServlet extends HttpServlet {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String[] cells = line.split(",");
-            String facilType = cells[0];
-            String facilName = cells[1];
-            /*
-            URL facilURL;
-            try {
-                facilURL = new URL(cells[2]);
-            } catch (MalformedURLException e) {
-                facilURL = new URL("N/A");
-                System.out.println(e);
+            String facilTypeInitial = cells[0].replaceAll("\\s+","");
+            String facilType;
+            if (facilTypeInitial.equals("Parks") || facilTypeInitial.equals("DogParks") || 
+            facilTypeInitial.equals("Gardens") || facilTypeInitial.equals("UniversallyAccessiblePlaygrounds") || 
+            facilTypeInitial.equals("NationalPark")) {
+                facilType = "Park";
             }
-            */
+            else if (facilTypeInitial.equals("Beaches")|| facilTypeInitial.equals("Lakes")) {
+                facilType = "Water";
+            }
+            else {
+                facilType = "Sports";
+            }
+            String facilName = cells[1];
             double lat = Double.parseDouble(cells[3]);
             double lng = Double.parseDouble(cells[4]);
 

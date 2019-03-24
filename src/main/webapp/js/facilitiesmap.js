@@ -16,9 +16,6 @@ let map;
                 zoom:7
             });
 
-            // creating cluster markers 
-           // const labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
-
            const markers = facilitiesLocations.map(function(facilitiesLocation, i) {
                return new google.maps.Marker({
                    position: {lat: facilitiesLocation.lat, lng: facilitiesLocation.lng},
@@ -26,18 +23,9 @@ let map;
                });
            });
 
-           /* facilitiesLocations.forEach((facilitiesLocation) => {
-                new google.maps.Marker({
-                    position: {lat: facilitiesLocation.lat, lng: facilitiesLocation.lng},
-                    map: map,
-                });
-
-            });*/ 
-
             const markerCluster = new MarkerClusterer(map, markers, {
                 imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
             });
-            
 
 
         });

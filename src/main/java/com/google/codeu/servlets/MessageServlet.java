@@ -33,6 +33,10 @@ import com.google.cloud.language.v1.Document;
 import com.google.cloud.language.v1.Document.Type;
 import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+
 
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
@@ -91,7 +95,7 @@ public class MessageServlet extends HttpServlet {
     }
 
     String user = userService.getCurrentUser().getEmail();
-    String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+    String userText = Jsoup.clean(request.getParameter("text"), Whitelist.basicWithImages());
     String recipient = request.getParameter("recipient");
     float sentimentScore = this.getSentimentScore(userText);
 
@@ -99,7 +103,12 @@ public class MessageServlet extends HttpServlet {
     String replacement = "<img src=\"$1\" />";
     String textWithImagesReplaced = userText.replaceAll(regex, replacement);
 
-    Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore);
+    Parser parser = Parser.builder().build();
+    Node document = parser.parse(textWithImagesReplaced);
+    HtmlRenderer renderer = HtmlRenderer.builder().build();
+    String sanitizedText = renderer.render(document);
+
+    Message message = new Message(user, sanitizedText, recipient, sentimentScore);
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + recipient);
