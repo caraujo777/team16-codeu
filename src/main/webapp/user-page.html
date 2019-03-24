@@ -41,17 +41,16 @@ limitations under the License.
      <input type="submit" value="Submit">
     </form>
 
-    <form id="message-form" action="/messages" method="POST" class="hidden">
-      </br>
-      Share something with the community:
-      <textarea id="message-input" name="text"></textarea>
-      <input type="submit" value="Submit">
-    </form>
-      <!-- Add an image to your message:
+    <form id="message-form" class="hidden" action="/messages" method="POST" enctype="multipart/form-data">
+      Enter a new message:
+      <br/>
+      <textarea name="text" id="message-input"></textarea>
+      <br/>
+      Add an image to your message:
       <input type="file" name="image">
       <br/>
       <input type="submit" value="Submit">
-    </form> -->
+    </form>
 
     <div id="message-container">Loading...</div>
   </body>
