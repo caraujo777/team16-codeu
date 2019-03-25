@@ -4,34 +4,55 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', {packages: ['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
-        function drawChart() {
-          var skatebrand_data = new google.visualization.DataTable();
-          skatebrand_data.addColumn('string', '');
-          skatebrand_data.addColumn('number', 'Votes');
-        
-          skatebrand_data.addRows([
-            ["Fancy Lad Skateboards", 6],
-            ["Road Rider", 10],
-            ["Bustin Skateboards", 7],
-            ["ABEC 11", 4],
-            ["Zoo York Skateboards", 8]
-          ]);
+        google.charts.setOnLoadCallback(
+          function() {
+            fetchMessageData();
+          }
+        );
+
+        function drawChart(in_data) {
            
-          var chart = new google.visualization.BarChart(document.getElementById('skatebrand_chart'));
+          var chart = new google.visualization.ScatterChart(document.getElementById('new-chart'));
           var chart_options = {
-            title: "Skateboard Brand Ratings",
-            width: 800,
-            height: 400
+            title: "Message Volume History",
+            legend: 'none',
+            hAxis: {title: 'Date'},
+            vAxis: {title: 'Message Count'},
+            width: 900,
+            height: 500
           };
 
-          chart.draw(skatebrand_data, chart_options);
+          chart.draw(in_data, chart_options);
+      }
+
+      function fetchMessageData() {
+          fetch("/messagechart")
+           .then((response) => {
+              return response.json();
+           })
+           .then((msgJson) => {
+             var msgData = new google.visualization.DataTable();
+             msgData.addColumn('date', 'Date');
+             msgData.addColumn('number', 'Message Count');
+             var totalMessages = 0;
+             for (i = msgJson.length-1; i >= 0; i--) {
+              msgRow = [];
+              var timestampAsDate = new Date(msgJson[i].timestamp);
+              timestampAsDate.setSeconds(0,0);
+              var totalMessages = totalMessages + 1;
+              msgRow.push(timestampAsDate);
+              msgRow.push(totalMessages);
+              msgData.addRow(msgRow);
+             }
+             
+             drawChart(msgData);
+           });
       }
     </script>
-    <title>A New Chart</title>
+    <title>Charts</title>
   </head>
   <body>
-    <h1>Hard-Coded Chart</h1>
-    <div id="skatebrand_chart"></div>
+    <h1>Message Count</h1>
+    <div id="new-chart"></div>
   </body>
 </html> 
