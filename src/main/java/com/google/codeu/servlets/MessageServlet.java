@@ -18,6 +18,10 @@ package com.google.codeu.servlets;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.Document.Type;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.cloud.translate.Translate;
@@ -31,6 +35,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
@@ -43,6 +50,16 @@ public class MessageServlet extends HttpServlet {
   @Override
   public void init() {
     datastore = new Datastore();
+  }
+
+  private float getSentimentScore(String text) throws IOException {
+    Document doc = Document.newBuilder().setContent(text).setType(Type.PLAIN_TEXT).build();
+
+    LanguageServiceClient languageService = LanguageServiceClient.create();
+    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+    languageService.close();
+
+    return sentiment.getScore();
   }
 
   /**
@@ -86,10 +103,20 @@ public class MessageServlet extends HttpServlet {
     }
 
     String user = userService.getCurrentUser().getEmail();
-    String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+    String userText = Jsoup.clean(request.getParameter("text"), Whitelist.basicWithImages());
     String recipient = request.getParameter("recipient");
+    float sentimentScore = this.getSentimentScore(userText);
 
-    Message message = new Message(user, text, recipient);
+    String regex = "(https?://\\S+\\.(png|jpg))";
+    String replacement = "<img src=\"$1\" />";
+    String textWithImagesReplaced = userText.replaceAll(regex, replacement);
+
+    Parser parser = Parser.builder().build();
+    Node document = parser.parse(textWithImagesReplaced);
+    HtmlRenderer renderer = HtmlRenderer.builder().build();
+    String sanitizedText = renderer.render(document);
+
+    Message message = new Message(user, sanitizedText, recipient, sentimentScore);
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + recipient);

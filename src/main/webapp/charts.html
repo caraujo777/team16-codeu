@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+          var skatebrand_data = new google.visualization.DataTable();
+          skatebrand_data.addColumn('string', '');
+          skatebrand_data.addColumn('number', 'Votes');
+        
+          skatebrand_data.addRows([
+            ["Fancy Lad Skateboards", 6],
+            ["Road Rider", 10],
+            ["Bustin Skateboards", 7],
+            ["ABEC 11", 4],
+            ["Zoo York Skateboards", 8]
+          ]);
+           
+          var chart = new google.visualization.BarChart(document.getElementById('skatebrand_chart'));
+          var chart_options = {
+            title: "Skateboard Brand Ratings",
+            width: 800,
+            height: 400
+          };
+
+          chart.draw(skatebrand_data, chart_options);
+      }
+    </script>
+    <title>A New Chart</title>
+  </head>
+  <body>
+    <h1>Hard-Coded Chart</h1>
+    <div id="skatebrand_chart"></div>
+  </body>
+</html> 

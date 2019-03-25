@@ -47,7 +47,6 @@ function showMessageFormIfLoggedIn() {
             aboutMeForm.classList.remove('hidden');
           }
         }
-      
       });
 }
 
@@ -76,13 +75,12 @@ function fetchMessages() {
       });
 }
 
-
 /** Fetches about me and adds to the page. */
 function fetchAboutMe() {
   const url = '/about?user=' + parameterUsername;
   fetch(url)
       .then((response) => {
-        return response.text(); 
+        return response.text();
       })
       .then((aboutMe) => {
         const aboutMeContainer = document.getElementById('about-me-container');
@@ -92,6 +90,7 @@ function fetchAboutMe() {
         aboutMeContainer.innerHTML = aboutMe;
   });
 }
+
 /**
  * Builds an element that displays the message.
  * @param {Message} message
@@ -100,9 +99,9 @@ function fetchAboutMe() {
 function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
-  headerDiv.appendChild(document.createTextNode(
-      message.user + ' - ' + new Date(message.timestamp)));
-
+  var my_message = message.user + ' - ' + new Date(message.timestamp) +
+      ' Sentiment Score: [' + message.sentimentScore + ']';
+  headerDiv.appendChild(document.createTextNode(my_message));
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
   bodyDiv.innerHTML = message.text;
@@ -133,4 +132,7 @@ function buildUI() {
   showMessageFormIfLoggedIn();
   fetchMessages();
   fetchAboutMe();
+  const config = {removePlugins: ['Heading', 'List', 'ImageUpload', 'Table', 'MediaEmbed']};
+  ClassicEditor.create(document.getElementById('message-input'), config);
+  ClassicEditor.create(document.getElementById('about-me-input'), config);
 }
