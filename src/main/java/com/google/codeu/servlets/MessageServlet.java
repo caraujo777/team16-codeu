@@ -22,12 +22,12 @@ import com.google.cloud.language.v1.Document;
 import com.google.cloud.language.v1.Document.Type;
 import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
-import com.google.codeu.data.Datastore;
-import com.google.codeu.data.Message;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.Translate.TranslateOption;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
+import com.google.codeu.data.Datastore;
+import com.google.codeu.data.Message;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.List;
@@ -123,14 +123,14 @@ public class MessageServlet extends HttpServlet {
   }
 
   private void translateMessages(List<Message> messages, String targetLanguageCode) {
-    
+
     Translate translate = TranslateOptions.getDefaultInstance().getService();
 
     for (Message message : messages) {
       String originalText = message.getText();
 
-      Translation translation = translate.translate(
-        originalText, TranslateOption.targetLanguage(targetLanguageCode));
+      Translation translation =
+          translate.translate(originalText, TranslateOption.targetLanguage(targetLanguageCode));
       String translatedText = translation.getTranslatedText();
 
       message.setText(translatedText);
