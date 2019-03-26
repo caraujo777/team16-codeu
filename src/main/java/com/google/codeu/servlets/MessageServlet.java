@@ -131,7 +131,6 @@ public class MessageServlet extends HttpServlet {
 
     datastore.storeMessage(message);
 
-    // response.sendRedirect("/user-page.html?user=" + recipient);
-    response.sendRedirect("/user-page.html?user=caraujo@codeustudents.com");
+    response.sendRedirect("/user-page.html?user=" + recipient);
   }
 }
