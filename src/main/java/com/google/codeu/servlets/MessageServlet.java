@@ -43,6 +43,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
+import com.google.appengine.api.images.ImagesServiceFailureException;
 
 
 /** Handles fetching and saving {@link Message} instances. */
@@ -124,13 +125,15 @@ public class MessageServlet extends HttpServlet {
     if(blobKeys != null && !blobKeys.isEmpty()) {
       BlobKey blobKey = blobKeys.get(0);
       ImagesService imagesService = ImagesServiceFactory.getImagesService();
+      try {
       ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
       String imageUrl = imagesService.getServingUrl(options);
       message.setImageUrl(imageUrl);
+      } catch (ImagesServiceFailureException unused) {
+        unused.printStackTrace();
+      }
     }
-
     datastore.storeMessage(message);
-
     response.sendRedirect("/user-page.html?user=" + recipient);
   }
 }
