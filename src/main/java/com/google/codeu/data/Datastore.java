@@ -119,6 +119,9 @@ public class Datastore {
     userEntity = new Entity("User", user.getEmail());
     userEntity.setProperty("email", user.getEmail());
     userEntity.setProperty("aboutMe", user.getAboutMe());
+    if(user.getImageUrl() != null) {
+      userEntity.setProperty("imageUrl", user.getImageUrl());
+    }
     datastore.put(userEntity);
   }
 
@@ -134,6 +137,8 @@ public class Datastore {
 
     String aboutMe = (String) userEntity.getProperty("aboutMe");
     User user = new User(email, aboutMe);
+    String imageUrl = (String) userEntity.getProperty("imageUrl");
+    user.setImageUrl(imageUrl);
 
     return user;
 

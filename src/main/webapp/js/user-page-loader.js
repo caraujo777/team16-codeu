@@ -98,6 +98,10 @@ function fetchAboutMe() {
           aboutMe = 'This user has not entered any information yet.';
         }
         aboutMeContainer.innerHTML = aboutMe;
+        if(aboutMe.imageUrl) {
+          aboutMeContainer.innerHTML += '<br/>';
+          aboutMeContainer.innerHTML += '<img src="' + aboutMe.imageUrl + '" />';
+        }
   });
 }
 

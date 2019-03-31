@@ -15,6 +15,15 @@ import org.jsoup.safety.Whitelist;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import java.util.Map;
+import java.util.List;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.ServingUrlOptions;
+import com.google.appengine.api.images.ImagesServiceFailureException;
 
 /**  Handles fetching and saving user data. */
 
@@ -60,7 +69,23 @@ public class AboutMeServlet extends HttpServlet {
     HtmlRenderer renderer = HtmlRenderer.builder().build();
     aboutMe = renderer.render(document);
 
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get("image");
+
     User user = new User(userEmail, aboutMe);
+
+    if(blobKeys != null && !blobKeys.isEmpty()) {
+      BlobKey blobKey = blobKeys.get(0);
+      ImagesService imagesService = ImagesServiceFactory.getImagesService();
+      try {
+      ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+      String imageUrl = imagesService.getServingUrl(options);
+      user.setImageUrl(imageUrl);
+      } catch (ImagesServiceFailureException unused) {
+        unused.printStackTrace();
+      }
+    }
     datastore.storeUser(user);
     response.sendRedirect("/user-page.html?user=" + userEmail);
   }
