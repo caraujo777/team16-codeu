@@ -2,7 +2,10 @@
 Description: javascript file corresponding to user-maps.html
 Author: Anna Kawakami 
 Created: 03/24/19
-Last Updated: 03/24/19
+Last Updated: 03/31/19
 */
 
-let map;
+#map{
+    width: 500px;
+    height: 500px;
+  }
