@@ -100,8 +100,14 @@ function buildMessageDiv(message) {
   headerDiv.appendChild(document.createTextNode(my_message));
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
-  bodyDiv.innerHTML = message.text;
-
+  var out_text = message.text.split(" ");
+  for (var i = 0; i < out_text.length; i++) {
+    if (out_text[i].substring(0,1) === "@")
+    {
+      out_text[i] = out_text[i].fontcolor("red");
+    }
+  }
+  bodyDiv.innerHTML = out_text.join(' ');
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message-div');
   messageDiv.appendChild(headerDiv);
