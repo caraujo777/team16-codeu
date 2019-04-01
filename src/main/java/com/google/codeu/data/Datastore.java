@@ -90,10 +90,13 @@ public class Datastore {
   public List<Message> getMessages(String recipient) {
     List<Message> messages = new ArrayList<>();
 
-    Query query =
-        new Query("Message")
-            .setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
-            .addSort("timestamp", SortDirection.DESCENDING);
+    Query query = new Query("Message");
+
+    if (recipient != null) {
+      query.setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient));
+    }
+
+    query.addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
     return getMessagesFromResults(results);
