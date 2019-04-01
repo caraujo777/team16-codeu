@@ -34,6 +34,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import java.util.Map;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.ServingUrlOptions;
+import com.google.appengine.api.images.ImagesServiceFailureException;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
@@ -106,9 +114,24 @@ public class MessageServlet extends HttpServlet {
     HtmlRenderer renderer = HtmlRenderer.builder().build();
     String sanitizedText = renderer.render(document);
 
-    Message message = new Message(user, sanitizedText, recipient, sentimentScore);
-    datastore.storeMessage(message);
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get("image");
 
+    Message message = new Message(user, sanitizedText, recipient, sentimentScore);
+
+    if(blobKeys != null && !blobKeys.isEmpty()) {
+      BlobKey blobKey = blobKeys.get(0);
+      ImagesService imagesService = ImagesServiceFactory.getImagesService();
+      try {
+      ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+      String imageUrl = imagesService.getServingUrl(options);
+      message.setImageUrl(imageUrl);
+      } catch (ImagesServiceFailureException unused) {
+        unused.printStackTrace();
+      }
+    }
+    datastore.storeMessage(message);
     response.sendRedirect("/user-page.html?user=" + recipient);
   }
 }

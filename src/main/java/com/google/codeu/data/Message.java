@@ -27,6 +27,7 @@ public class Message {
   private long timestamp;
   private String recipient;
   private float sentimentScore;
+  private String imageUrl;
 
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
@@ -45,6 +46,7 @@ public class Message {
     this.recipient = recipient;
     this.sentimentScore = sentimentScore;
   }
+
 
   public UUID getId() {
     return id;
@@ -68,5 +70,13 @@ public class Message {
 
   public float getSentimentScore() {
     return sentimentScore;
+  }
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
+  public String getImageUrl() {
+    return imageUrl;
   }
 }
