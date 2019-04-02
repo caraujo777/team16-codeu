@@ -69,23 +69,23 @@ public class AboutMeServlet extends HttpServlet {
     HtmlRenderer renderer = HtmlRenderer.builder().build();
     aboutMe = renderer.render(document);
 
-    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
-    List<BlobKey> blobKeys = blobs.get("image");
+    // BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    // Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    // List<BlobKey> blobKeys = blobs.get("image");
 
     User user = new User(userEmail, aboutMe);
 
-    if(blobKeys != null && !blobKeys.isEmpty()) {
-      BlobKey blobKey = blobKeys.get(0);
-      ImagesService imagesService = ImagesServiceFactory.getImagesService();
-      try {
-      ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
-      String imageUrl = imagesService.getServingUrl(options);
-      user.setImageUrl(imageUrl);
-      } catch (ImagesServiceFailureException unused) {
-        unused.printStackTrace();
-      }
-    }
+    // if(blobKeys != null && !blobKeys.isEmpty()) {
+    //   BlobKey blobKey = blobKeys.get(0);
+    //   ImagesService imagesService = ImagesServiceFactory.getImagesService();
+    //   try {
+    //   ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+    //   String imageUrl = imagesService.getServingUrl(options);
+    //   user.setImageUrl(imageUrl);
+    //   } catch (ImagesServiceFailureException unused) {
+    //     unused.printStackTrace();
+    //   }
+    // }
     datastore.storeUser(user);
     response.sendRedirect("/user-page.html?user=" + userEmail);
   }

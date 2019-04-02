@@ -42,7 +42,6 @@ function showMessageFormIfLoggedIn() {
           const messageForm = document.getElementById('message-form');
           messageForm.action = '/messages?recipient=' + parameterUsername;
           messageForm.classList.remove('hidden');
-          document.getElementById('recipientInput').value = parameterUsername;
           if (loginStatus.username == parameterUsername) {
             const aboutMeForm = document.getElementById('about-me-form');
             aboutMeForm.classList.remove('hidden');
@@ -61,6 +60,11 @@ function fetchImageUploadUrlAndShowForm() {
         const messageForm = document.getElementById('message-form');
         messageForm.action = imageUploadUrl;
         messageForm.classList.remove('hidden');
+        // const aboutMeForm = document.getElementById('about-me-form');
+        // aboutMeForm.action = imageUploadUrl;
+        // aboutMeForm.classList.remove('hidden');
+        document.getElementById('recipientInput').value = parameterUsername;
+        // document.getElementById('userInput').value = parameterUsername;
       });
 }
 

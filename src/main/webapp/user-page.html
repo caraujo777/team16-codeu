@@ -34,14 +34,10 @@ limitations under the License.
 
     <div id="about-me-container">Loading...</div>
 
-    <!-- <form id="about-me-form" action="/about" method="POST" class="hidden"> -->
-    <!-- <form id="about-me-form" class="hidden" method="POST" enctype="multipart/form-data">
+    <!-- <form id="about-me-form" action="/about" method="POST" class="hidden">
       </br>
       Modify about me info:
      <textarea id="about-me-input" name="about-me" rows=4></textarea>
-     <br/>
-     Add profile picture:
-     <input type="file" name="image">
      <br/>
      <input type="submit" value="Submit">
     </form> -->
@@ -54,11 +50,12 @@ limitations under the License.
       Add an image to your message:
       <input type="file" name="image">
       <br/>
+      <input type="hidden" value="" name="user" id="userInput">
       <input type="submit" value="Submit">
     </form>
 
     <form id="message-form" class="hidden" method="POST" enctype="multipart/form-data">
-    	  Share something with the communityyyyyyy:
+    	  Share something with the community:
     	  <br/>
     	  <textarea name="text" id="message-input"></textarea>
     	  <br/>
