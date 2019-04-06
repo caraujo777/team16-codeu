@@ -60,6 +60,10 @@ public class Message {
     return text;
   }
 
+  public void setText(String text) {
+    this.text = text;
+  }
+
   public long getTimestamp() {
     return timestamp;
   }
