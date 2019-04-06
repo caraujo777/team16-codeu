@@ -60,11 +60,11 @@ function fetchImageUploadUrlAndShowForm() {
         const messageForm = document.getElementById('message-form');
         messageForm.action = imageUploadUrl;
         messageForm.classList.remove('hidden');
-        // const aboutMeForm = document.getElementById('about-me-form');
-        // aboutMeForm.action = imageUploadUrl;
-        // aboutMeForm.classList.remove('hidden');
+        const aboutMeForm = document.getElementById('about-me-form');
+        aboutMeForm.action = imageUploadUrl;
+        aboutMeForm.classList.remove('hidden');
         document.getElementById('recipientInput').value = parameterUsername;
-        // document.getElementById('userInput').value = parameterUsername;
+        document.getElementById('userInput').value = parameterUsername;
       });
 }
 
