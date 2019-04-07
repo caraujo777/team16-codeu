@@ -45,9 +45,7 @@ public class Datastore {
     messageEntity.setProperty("timestamp", message.getTimestamp());
     messageEntity.setProperty("recipient", message.getRecipient());
     messageEntity.setProperty("sentimentScore", message.getSentimentScore());
-    if(message.getImageUrl() != null) {
-      messageEntity.setProperty("imageUrl", message.getImageUrl());
-    }
+
     datastore.put(messageEntity);
   }
 
@@ -60,23 +58,25 @@ public class Datastore {
     List<Message> messages = new ArrayList<>();
 
     for (Entity entity : results.asIterable()) {
-     try {
-      String idString = entity.getKey().getName();
-      UUID id = UUID.fromString(idString);
-      String user = (String) entity.getProperty("user");
-      String text = (String) entity.getProperty("text");
-      long timestamp = (long) entity.getProperty("timestamp");
-      String recipient = (String) entity.getProperty("recipient");
-      float sentimentScore = entity.getProperty("sentimentScore") == null? (float) 0.0 : ((Double) entity.getProperty("sentimentScore")).floatValue();
-      String imageUrl = (String) entity.getProperty("imageUrl");
-	    Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
-	    message.setImageUrl(imageUrl);
-      messages.add(message);
-     } catch (Exception e) {
-      System.err.println("Error reading message.");
-      System.err.println(entity.toString());
-      e.printStackTrace();
-     }
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String user = (String) entity.getProperty("user");
+        String text = (String) entity.getProperty("text");
+        long timestamp = (long) entity.getProperty("timestamp");
+        String recipient = (String) entity.getProperty("recipient");
+        float sentimentScore =
+            entity.getProperty("sentimentScore") == null
+                ? (float) 0.0
+                : ((Double) entity.getProperty("sentimentScore")).floatValue();
+
+        Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
+        messages.add(message);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
     }
     return messages;
   }
@@ -148,4 +148,48 @@ public class Datastore {
     PreparedQuery results = datastore.prepare(query);
     return results.countEntities(FetchOptions.Builder.withLimit(1000));
   }
+
+/**
+ * Retrieves instances of the UserMarker class. 
+ * 
+ * @return a list of the UserMarker instances 
+ */
+
+public List<UserMarker> getMarkers() {
+  List<UserMarker> markers = new ArrayList<>();
+
+  Query query = new Query("UserMarker");
+  PreparedQuery results = datastore.prepare(query);
+
+  for (Entity entity : results.asIterable()) {
+    try {
+      double lat = (double) entity.getProperty("lat");
+      double lng = (double) entity.getProperty("lng");
+      String content = (String) entity.getProperty("content");
+
+      UserMarker marker = new UserMarker(lat, lng, content);
+      markers.add(marker);
+    } catch (Exception e) {
+      System.err.println("Error reading marker.");
+      System.err.println(entity.toString());
+      e.printStackTrace();
+  }  
+  }
+  return markers;
 }
+
+/**
+ * Stores instances of the UserMarker class. 
+ * 
+ * @return N/A 
+ */
+public void storeMarker(UserMarker marker) {
+  Entity markerEntity = new Entity("UserMarker");
+  markerEntity.setProperty("lat", marker.getLat());
+  markerEntity.setProperty("lng", marker.getLng());
+  markerEntity.setProperty("content", marker.getContent());
+  datastore.put(markerEntity);
+}
+
+}
+

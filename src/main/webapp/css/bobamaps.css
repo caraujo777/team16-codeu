@@ -1,0 +1,11 @@
+ /*
+Description: CSS file corresponding to bobamaps.html page
+Author: Anna Kawakami
+Created: 03/17/19
+Last Updated: 03/16/19
+*/
+
+#map{
+    width: 500px;
+    height: 500px;
+  }
