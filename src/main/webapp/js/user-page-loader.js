@@ -106,15 +106,16 @@ function fetchAboutMe() {
       .then((response) => {
         return response.text();
       })
-      .then((aboutMe) => {
+      .then((user) => {
+        parsedUser = JSON.parse(user)
         const aboutMeContainer = document.getElementById('about-me-container');
-        if (aboutMe == '') {
-          aboutMe = 'This user has not entered any information yet.';
+        if (parsedUser.aboutMe == '') {
+          parsedUser.aboutMe = 'This user has not entered any information yet.';
         }
-        aboutMeContainer.innerHTML = aboutMe;
-        if(aboutMe.imageUrl) {
+        aboutMeContainer.innerHTML = parsedUser.aboutMe;
+        if(parsedUser.imageUrl) {
           aboutMeContainer.innerHTML += '<br/>';
-          aboutMeContainer.innerHTML += '<img src="' + aboutMe.imageUrl + '" />';
+          aboutMeContainer.innerHTML += '<img src="' + parsedUser.imageUrl + '" />';
         }
   });
 }

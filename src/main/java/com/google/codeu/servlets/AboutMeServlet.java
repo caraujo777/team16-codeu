@@ -24,6 +24,7 @@ import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
 import com.google.appengine.api.images.ImagesServiceFailureException;
+import com.google.gson.Gson;
 
 /**  Handles fetching and saving user data. */
 
@@ -39,17 +40,20 @@ public class AboutMeServlet extends HttpServlet {
   /** Responds with the "about me" section for a particular user */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html");
+    response.setContentType("application/json");
     String user = request.getParameter("user");
     if(user == null || user.equals("")) {
-      // Request is invalid, return empty response
+      response.getWriter().println("[]");
       return;
     }
     User userData = datastore.getUser(user);
     if(userData == null || userData.getAboutMe() == null) {
+      response.getWriter().println("[]");
       return;
     }
-    response.getOutputStream().println(userData.getAboutMe());
+    Gson gson = new Gson();
+    String json = gson.toJson(userData);
+    response.getWriter().println(json);
   }
 
   @Override
