@@ -46,6 +46,7 @@ function showMessageFormIfLoggedIn() {
             const aboutMeForm = document.getElementById('about-me-form');
             aboutMeForm.classList.remove('hidden');
             fetchImageUploadUrlAndShowForm();
+            fetchImageUploadProfileAndShowForm();
           }
         }
       });
@@ -60,10 +61,19 @@ function fetchImageUploadUrlAndShowForm() {
         const messageForm = document.getElementById('message-form');
         messageForm.action = imageUploadUrl;
         messageForm.classList.remove('hidden');
+        document.getElementById('recipientInput').value = parameterUsername;
+      });
+}
+
+function fetchImageUploadProfileAndShowForm() {
+  fetch('/image-upload-profile')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
         const aboutMeForm = document.getElementById('about-me-form');
         aboutMeForm.action = imageUploadUrl;
         aboutMeForm.classList.remove('hidden');
-        document.getElementById('recipientInput').value = parameterUsername;
         document.getElementById('userInput').value = parameterUsername;
       });
 }

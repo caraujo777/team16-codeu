@@ -71,7 +71,7 @@ public class AboutMeServlet extends HttpServlet {
 
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
-    List<BlobKey> blobKeys = blobs.get("image");
+    List<BlobKey> blobKeys = blobs.get("profile_image");
 
     User user = new User(userEmail, aboutMe);
 
