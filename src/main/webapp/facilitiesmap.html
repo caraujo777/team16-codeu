@@ -1,0 +1,29 @@
+<!-- 
+Description: Map showing locations public facilities in the LA, California area
+Author: Anna Kawakami 
+Created: 03/20/19
+Last Edited: 03/31/19-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> LA Public Leisure Facilities </title>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfEwbIKOYAeqpy7rd0w4DKrz0sNmSbeDg"></script>
+        <script src="/js/facilitiesmap2.js"></script>
+        <link rel="stylesheet" href="/css/facilitiesmap.css">
+        <script src="/js/markerclusterer.js"></script>
+    </head>
+    <body onload="createFacilitiesMap();">
+        <h1>California Public Facilities</h1>
+        <h2> Includes parks, sports centers, lakes, and more! </h2>
+        <div id="map"></div>
+    </body>
+</html>
+
+<!--
+    Next steps - 
+    1. find more data sets 
+    2. modify code to only show markers within  the 
+    bounds of the maps 
+    3. add pop up text boxes to show location names and number of check-ins 
+    4. figure out how to cluster and use customized markers both
+-->

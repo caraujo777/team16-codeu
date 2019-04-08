@@ -5,21 +5,17 @@ Date: 02/24/19
 
 package com.google.codeu.servlets;
 
+import com.google.codeu.data.Datastore;
+import com.google.gson.JsonObject;
 import java.io.IOException;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.codeu.data.Datastore;
-import com.google.gson.JsonObject;
-
-/**
- * Handles fetching site statistics.
- */
+/** Handles fetching site statistics. */
 @WebServlet("/stats")
-public class StatsPageServlet extends HttpServlet{
+public class StatsPageServlet extends HttpServlet {
 
   private Datastore datastore;
 
@@ -28,12 +24,9 @@ public class StatsPageServlet extends HttpServlet{
     datastore = new Datastore();
   }
 
-  /**
-   * Responds with site statistics in JSON.
-   */
+  /** Responds with site statistics in JSON. */
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     response.setContentType("application/json");
 
@@ -44,4 +37,3 @@ public class StatsPageServlet extends HttpServlet{
     response.getOutputStream().println(jsonObject.toString());
   }
 }
-

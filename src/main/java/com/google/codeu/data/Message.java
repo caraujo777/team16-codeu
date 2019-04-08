@@ -37,7 +37,8 @@ public class Message {
     this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore);
   }
 
-  public Message(UUID id, String user, String text, long timestamp, String recipient, float sentimentScore) {
+  public Message(
+      UUID id, String user, String text, long timestamp, String recipient, float sentimentScore) {
     this.id = id;
     this.user = user;
     this.text = text;
@@ -57,6 +58,10 @@ public class Message {
 
   public String getText() {
     return text;
+  }
+
+  public void setText(String text) {
+    this.text = text;
   }
 
   public long getTimestamp() {

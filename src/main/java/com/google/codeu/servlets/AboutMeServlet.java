@@ -1,17 +1,14 @@
 package com.google.codeu.servlets;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.codeu.data.Datastore;
+import com.google.codeu.data.User;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.google.codeu.data.Datastore;
-import com.google.codeu.data.User;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
@@ -25,9 +22,10 @@ import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
 import com.google.appengine.api.images.ImagesServiceFailureException;
 import com.google.gson.Gson;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
-/**  Handles fetching and saving user data. */
-
+/** Handles fetching and saving user data. */
 @WebServlet("/about")
 public class AboutMeServlet extends HttpServlet {
   private Datastore datastore;
@@ -37,7 +35,7 @@ public class AboutMeServlet extends HttpServlet {
     datastore = new Datastore();
   }
 
-  /** Responds with the "about me" section for a particular user */
+  /** Responds with the user data for a particular user */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
@@ -60,7 +58,7 @@ public class AboutMeServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     UserService userService = UserServiceFactory.getUserService();
-    if(!userService.isUserLoggedIn()) {
+    if (!userService.isUserLoggedIn()) {
       response.sendRedirect("/index.html");
       return;
     }
