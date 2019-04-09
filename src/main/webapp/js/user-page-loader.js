@@ -42,11 +42,11 @@ function showMessageFormIfLoggedIn() {
           const messageForm = document.getElementById('message-form');
           messageForm.action = '/messages?recipient=' + parameterUsername;
           messageForm.classList.remove('hidden');
-          document.getElementById('recipientInput').value = parameterUsername;
           if (loginStatus.username == parameterUsername) {
             const aboutMeForm = document.getElementById('about-me-form');
             aboutMeForm.classList.remove('hidden');
             fetchImageUploadUrlAndShowForm();
+            fetchImageUploadProfileAndShowForm();
           }
         }
       });
@@ -61,6 +61,20 @@ function fetchImageUploadUrlAndShowForm() {
         const messageForm = document.getElementById('message-form');
         messageForm.action = imageUploadUrl;
         messageForm.classList.remove('hidden');
+        document.getElementById('recipientInput').value = parameterUsername;
+      });
+}
+
+function fetchImageUploadProfileAndShowForm() {
+  fetch('/image-upload-profile')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const aboutMeForm = document.getElementById('about-me-form');
+        aboutMeForm.action = imageUploadUrl;
+        aboutMeForm.classList.remove('hidden');
+        document.getElementById('userInput').value = parameterUsername;
       });
 }
 
@@ -96,12 +110,17 @@ function fetchAboutMe() {
       .then((response) => {
         return response.text();
       })
-      .then((aboutMe) => {
+      .then((user) => {
+        parsedUser = JSON.parse(user)
         const aboutMeContainer = document.getElementById('about-me-container');
-        if (aboutMe == '') {
-          aboutMe = 'This user has not entered any information yet.';
+        if (parsedUser.aboutMe == undefined) {
+          parsedUser.aboutMe = 'This user has not entered any information yet.';
         }
-        aboutMeContainer.innerHTML = aboutMe;
+        aboutMeContainer.innerHTML = parsedUser.aboutMe;
+        if(parsedUser.imageUrl) {
+          aboutMeContainer.innerHTML += '<br/>';
+          aboutMeContainer.innerHTML += '<img src="' + parsedUser.imageUrl + '" />';
+        }
   });
 }
 
