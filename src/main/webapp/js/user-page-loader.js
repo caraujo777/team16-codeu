@@ -113,7 +113,7 @@ function fetchAboutMe() {
       .then((user) => {
         parsedUser = JSON.parse(user)
         const aboutMeContainer = document.getElementById('about-me-container');
-        if (parsedUser.aboutMe == '') {
+        if (parsedUser.aboutMe == undefined) {
           parsedUser.aboutMe = 'This user has not entered any information yet.';
         }
         aboutMeContainer.innerHTML = parsedUser.aboutMe;
