@@ -118,7 +118,7 @@ public class Datastore {
     userEntity = new Entity("User", user.getEmail());
     userEntity.setProperty("email", user.getEmail());
     userEntity.setProperty("aboutMe", user.getAboutMe());
-    if(user.getImageUrl() != null) {
+    if (user.getImageUrl() != null) {
       userEntity.setProperty("imageUrl", user.getImageUrl());
     }
     datastore.put(userEntity);
@@ -154,47 +154,44 @@ public class Datastore {
     return results.countEntities(FetchOptions.Builder.withLimit(1000));
   }
 
-/**
- * Retrieves instances of the UserMarker class. 
- * 
- * @return a list of the UserMarker instances 
- */
+  /**
+   * Retrieves instances of the UserMarker class.
+   *
+   * @return a list of the UserMarker instances
+   */
+  public List<UserMarker> getMarkers() {
+    List<UserMarker> markers = new ArrayList<>();
 
-public List<UserMarker> getMarkers() {
-  List<UserMarker> markers = new ArrayList<>();
+    Query query = new Query("UserMarker");
+    PreparedQuery results = datastore.prepare(query);
 
-  Query query = new Query("UserMarker");
-  PreparedQuery results = datastore.prepare(query);
+    for (Entity entity : results.asIterable()) {
+      try {
+        double lat = (double) entity.getProperty("lat");
+        double lng = (double) entity.getProperty("lng");
+        String content = (String) entity.getProperty("content");
 
-  for (Entity entity : results.asIterable()) {
-    try {
-      double lat = (double) entity.getProperty("lat");
-      double lng = (double) entity.getProperty("lng");
-      String content = (String) entity.getProperty("content");
-
-      UserMarker marker = new UserMarker(lat, lng, content);
-      markers.add(marker);
-    } catch (Exception e) {
-      System.err.println("Error reading marker.");
-      System.err.println(entity.toString());
-      e.printStackTrace();
-  }  
+        UserMarker marker = new UserMarker(lat, lng, content);
+        markers.add(marker);
+      } catch (Exception e) {
+        System.err.println("Error reading marker.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+    return markers;
   }
-  return markers;
-}
 
-/**
- * Stores instances of the UserMarker class. 
- * 
- * @return N/A 
- */
-public void storeMarker(UserMarker marker) {
-  Entity markerEntity = new Entity("UserMarker");
-  markerEntity.setProperty("lat", marker.getLat());
-  markerEntity.setProperty("lng", marker.getLng());
-  markerEntity.setProperty("content", marker.getContent());
-  datastore.put(markerEntity);
+  /**
+   * Stores instances of the UserMarker class.
+   *
+   * @return N/A
+   */
+  public void storeMarker(UserMarker marker) {
+    Entity markerEntity = new Entity("UserMarker");
+    markerEntity.setProperty("lat", marker.getLat());
+    markerEntity.setProperty("lng", marker.getLng());
+    markerEntity.setProperty("content", marker.getContent());
+    datastore.put(markerEntity);
+  }
 }
-
-}
-
