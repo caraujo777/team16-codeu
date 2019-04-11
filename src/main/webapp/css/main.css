@@ -49,16 +49,20 @@ nav li a:hover:not(.active) {
   z-index: 1;
 }
 
+<<<<<<< HEAD
 .navRight {
   float: right;
 }
 
+=======
+>>>>>>> Feat[main css]: Add depth to navbar elems
 .active {
   background-color: #FF4C70;
   box-shadow: 2px 4px 4px grey;
   position: relative;
   z-index: 2;
 }
+<<<<<<< HEAD
 
 .clearfix:after {
     content: ".";
@@ -67,3 +71,5 @@ nav li a:hover:not(.active) {
     clear: both;
     visibility: hidden;
 }
+=======
+>>>>>>> Feat[main css]: Add depth to navbar elems
