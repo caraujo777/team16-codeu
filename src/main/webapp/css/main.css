@@ -41,3 +41,16 @@ nav li a {
   padding: 14px 16px;
   text-decoration: none;
 }
+
+nav li a:hover:not(.active) {
+  box-shadow: 2px 3px 6px grey;
+  position: relative;
+  z-index: 1;
+}
+
+.active {
+  background-color: #FF4C70;
+  box-shadow: 2px 4px 4px grey;
+  position: relative;
+  z-index: 2;
+}
