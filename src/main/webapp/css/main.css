@@ -21,7 +21,13 @@ body {
 
 nav ul {
   list-style-type: none;
-  padding-left: 0;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  background-color: #FF7F99;
+  box-shadow: 2px 3px 8px grey;
+  position: relative;
+  z-index: 1;
 }
 
 nav li {
