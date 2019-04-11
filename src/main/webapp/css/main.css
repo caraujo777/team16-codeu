@@ -15,7 +15,8 @@
  */
 
 body {
-  max-width: 600px;
+ max-width: match-parent;
+ font-family: Roboto;
 }
 
 nav ul {
