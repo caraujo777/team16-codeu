@@ -48,6 +48,10 @@ nav li a:hover:not(.active) {
   z-index: 1;
 }
 
+.navRight {
+  float: right;
+}
+
 .active {
   background-color: #FF4C70;
   box-shadow: 2px 4px 4px grey;
