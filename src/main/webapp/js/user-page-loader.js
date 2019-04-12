@@ -105,6 +105,7 @@ function buildMessageDiv(message) {
     if (out_text[i].substring(0,1) === "@")
     {
       out_text[i] = out_text[i].fontcolor("red");
+      console.log(out_text[i]);
     }
   }
   bodyDiv.innerHTML = out_text.join(' ');
