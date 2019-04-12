@@ -14,13 +14,13 @@ public class User {
     this.mentions = new ArrayList<UUID>();
   }
 
-  public User(String email, String aboutMe, List mentions) {
+  public User(String email, String aboutMe, ArrayList mentions) {
     this.email = email;
     this.aboutMe = aboutMe;
     if (this.mentions != null) 
       this.mentions.clear();
     else 
-      this.mentions = new ArrayList()<UUID>;
+      this.mentions = new ArrayList<UUID>();
     this.mentions.addAll(mentions);
   }
 
@@ -32,7 +32,7 @@ public class User {
     return aboutMe;
   }
 
-  public List getMentions() {
+  public ArrayList getMentions() {
     return mentions;
   }
 
