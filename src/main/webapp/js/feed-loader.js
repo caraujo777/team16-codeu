@@ -57,7 +57,7 @@ function fetchMessages(){
      messageContainer.innerHTML = '';
     }
     messages.forEach((message) => {
-     const messageDiv = buildMessageDiv(message);
+     const messageDiv = buildPost(message);
      messageContainer.appendChild(messageDiv);
     });
   });
