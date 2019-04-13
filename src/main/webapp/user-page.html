@@ -28,7 +28,12 @@ limitations under the License.
   <body onload="buildUI();">
     <nav>
       <ul id="navigation">
-        <li><a href="/">Home</a></li>
+        <div id="navigation-container" class="clearfix">
+          <li><a href="feed.html">Feed</a></li>
+  	      <li><a href="about.html">About</a></li>
+          <li class="navRight"><a href="logout">Logout</a></li>
+          <li class="navRight active"><a href="user-page.html">Profile</a></li>
+        </div>
       </ul>
     </nav>
     <div class="padded rounded panel centered">
