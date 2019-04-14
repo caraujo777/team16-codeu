@@ -17,6 +17,7 @@
 body {
  max-width: match-parent;
  font-family: Roboto;
+ background-color: #F4F4F4;
 }
 
 nav ul {
