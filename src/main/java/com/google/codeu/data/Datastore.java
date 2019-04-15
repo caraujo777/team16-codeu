@@ -115,9 +115,8 @@ public class Datastore {
   /** Stores User in Datastore. */
   public void storeUser(User user) {
     Entity userEntity = new Entity("User", user.getEmail());
-    userEntity = new Entity("User", user.getEmail());
-    userEntity.setProperty("email", user.getEmail());
     userEntity.setProperty("aboutMe", user.getAboutMe());
+    userEntity.setProperty("mentions", user.getMentions());
     datastore.put(userEntity);
   }
 
@@ -133,7 +132,8 @@ public class Datastore {
     }
 
     String aboutMe = (String) userEntity.getProperty("aboutMe");
-    User user = new User(email, aboutMe);
+    ArrayList mentions = (ArrayList) userEntity.getProperty("mentions");
+    User user = new User(email, aboutMe, mentions);
 
     return user;
   }
