@@ -133,7 +133,7 @@ public class Datastore {
     }
 
     String aboutMe = (String) userEntity.getProperty("aboutMe");
-    ArrayList mentions = (ArrayList) userEntity.getProperty("mentions");
+    List mentions = (List) userEntity.getProperty("mentions");
     User user = new User(email, aboutMe, mentions);
 
     return user;

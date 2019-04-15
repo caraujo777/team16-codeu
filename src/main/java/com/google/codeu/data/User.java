@@ -1,24 +1,25 @@
 package com.google.codeu.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 
   private String email, aboutMe;
-  private ArrayList<String> mentions;
+  private List<String> mentionedMessageIds;
 
   public User(String email, String aboutMe) {
     this.email = email;
     this.aboutMe = aboutMe;
-    this.mentions = new ArrayList<String>();
+    this.mentionedMessageIds = new ArrayList<String>();
   }
 
-  public User(String email, String aboutMe, ArrayList mentions) {
+  public User(String email, String aboutMe, List mentionedMessageIds) {
     this.email = email;
     this.aboutMe = aboutMe;
-    if (this.mentions != null) this.mentions.clear();
-    else this.mentions = new ArrayList<String>();
-    if (mentions != null) this.mentions.addAll(mentions);
+    if (this.mentionedMessageIds != null) this.mentionedMessageIds.clear();
+    else this.mentionedMessageIds = new ArrayList<String>();
+    if (mentionedMessageIds != null) this.mentionedMessageIds.addAll(mentionedMessageIds);
   }
 
   public String getEmail() {
@@ -29,11 +30,11 @@ public class User {
     return aboutMe;
   }
 
-  public ArrayList getMentions() {
-    return mentions;
+  public List getMentions() {
+    return mentionedMessageIds;
   }
 
   public void addMention(String messageId) {
-    if (mentions.contains(messageId) == false) mentions.add(messageId);
+    if (mentionedMessageIds.contains(messageId) == false) mentionedMessageIds.add(messageId);
   }
 }
