@@ -30,7 +30,8 @@ public class Message {
   private String recipient;
   private float sentimentScore;
   private List tags;
-
+  private String imageUrl;
+  
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
    * random ID and uses the current system time for the creation time.
@@ -63,6 +64,7 @@ public class Message {
     }
   }
 
+
   public UUID getId() {
     return id;
   }
@@ -73,6 +75,10 @@ public class Message {
 
   public String getText() {
     return text;
+  }
+
+  public void setText(String text) {
+    this.text = text;
   }
 
   public long getTimestamp() {
@@ -90,5 +96,13 @@ public class Message {
   public void addTag(String tag) {
     if (tags == null) tags = new ArrayList<String>();
     if (tags.contains(tag) == false) tags.add(tag);
+}
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
+  public String getImageUrl() {
+    return imageUrl;
   }
 }

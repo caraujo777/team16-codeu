@@ -45,14 +45,46 @@ function showMessageFormIfLoggedIn() {
           if (loginStatus.username == parameterUsername) {
             const aboutMeForm = document.getElementById('about-me-form');
             aboutMeForm.classList.remove('hidden');
+            fetchImageUploadUrlAndShowForm();
+            fetchImageUploadProfileAndShowForm();
           }
         }
       });
 }
 
+function fetchImageUploadUrlAndShowForm() {
+  fetch('/image-upload-url')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const messageForm = document.getElementById('message-form');
+        messageForm.action = imageUploadUrl;
+        messageForm.classList.remove('hidden');
+        document.getElementById('recipientInput').value = parameterUsername;
+      });
+}
+
+function fetchImageUploadProfileAndShowForm() {
+  fetch('/image-upload-profile')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const aboutMeForm = document.getElementById('about-me-form');
+        aboutMeForm.action = imageUploadUrl;
+        aboutMeForm.classList.remove('hidden');
+        document.getElementById('userInput').value = parameterUsername;
+      });
+}
+
 /** Fetches messages and add them to the page. */
 function fetchMessages() {
-  const url = '/messages?user=' + parameterUsername;
+  const parameterLanguage = urlParams.get('language');
+  let url = '/messages?user=' + parameterUsername;
+  if (parameterLanguage) {
+    url += '&language=' + parameterLanguage;
+  }
   fetch(url)
       .then((response) => {
         return response.json();
@@ -78,12 +110,17 @@ function fetchAboutMe() {
       .then((response) => {
         return response.text();
       })
-      .then((aboutMe) => {
+      .then((user) => {
+        parsedUser = JSON.parse(user)
         const aboutMeContainer = document.getElementById('about-me-container');
-        if (aboutMe == '') {
-          aboutMe = 'This user has not entered any information yet.';
+        if (parsedUser.aboutMe == undefined) {
+          parsedUser.aboutMe = 'This user has not entered any information yet.';
         }
-        aboutMeContainer.innerHTML = aboutMe;
+        aboutMeContainer.innerHTML = parsedUser.aboutMe;
+        if(parsedUser.imageUrl) {
+          aboutMeContainer.innerHTML += '<br/>';
+          aboutMeContainer.innerHTML += '<img src="' + parsedUser.imageUrl + '" />';
+        }
   });
 }
 
@@ -108,6 +145,12 @@ function buildMessageDiv(message) {
     found = regex.exec(message.text);
   }
   bodyDiv.innerHTML = message.text;
+
+  if(message.imageUrl) {
+  bodyDiv.innerHTML += '<br/>';
+  bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
+  }
+
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message-div');
   messageDiv.appendChild(headerDiv);
@@ -116,9 +159,21 @@ function buildMessageDiv(message) {
   return messageDiv;
 }
 
+function buildLanguageLinks() {
+  const userPageUrl = '/user-page.html?user=' + parameterUsername;
+  const languagesListElement = document.getElementById('languages');
+  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=en', 'English')));
+  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=zh', 'Chinese')));
+  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=hi', 'Hindi')));
+  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=es', 'Spanish')));
+  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=ar', 'Arabic')));
+  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=ja', 'Japanese')));
+}
+
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
+  buildLanguageLinks();
   showMessageFormIfLoggedIn();
   fetchMessages();
   fetchAboutMe();

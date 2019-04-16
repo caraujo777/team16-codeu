@@ -7,6 +7,7 @@ public class User {
 
   private String email, aboutMe;
   private List<String> mentionedMessageIds;
+  private String email, aboutMe, imageUrl;
 
   public User(String email, String aboutMe) {
     this(email, aboutMe, null);
@@ -35,8 +36,15 @@ public class User {
   }
 
   public void addMention(String messageId) {
-
     if (mentionedMessageIds == null) mentionedMessageIds = new ArrayList<String>();
     if (mentionedMessageIds.contains(messageId) == false) mentionedMessageIds.add(messageId);
+  }
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
+  public String getImageUrl() {
+    return imageUrl;
   }
 }

@@ -24,14 +24,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Redirects the user to the Google logout page, which then redirects to the homepage. */
-@WebServlet("/logout")
-public class LogoutServlet extends HttpServlet {
+/** Redirects the user to the Google login page or their page if they're already logged in. */
+@WebServlet("/")
+public class IndexServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-    String googleLogoutUrl = userService.createLogoutURL("/landing.html");
-    response.sendRedirect(googleLogoutUrl);
+    // If the user is logged in, redirect to their feed
+    if (userService.isUserLoggedIn()) {
+      response.sendRedirect("/feed.html");
+      return;
+    }
+    response.sendRedirect("/landing.html");
   }
 }
