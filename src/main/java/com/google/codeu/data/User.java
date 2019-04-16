@@ -9,17 +9,17 @@ public class User {
   private List<String> mentionedMessageIds;
 
   public User(String email, String aboutMe) {
-    this.email = email;
-    this.aboutMe = aboutMe;
-    this.mentionedMessageIds = new ArrayList<String>();
+    this(email, aboutMe, null);
   }
 
   public User(String email, String aboutMe, List mentionedMessageIds) {
     this.email = email;
     this.aboutMe = aboutMe;
-    if (this.mentionedMessageIds != null) this.mentionedMessageIds.clear();
-    else this.mentionedMessageIds = new ArrayList<String>();
-    if (mentionedMessageIds != null) this.mentionedMessageIds.addAll(mentionedMessageIds);
+    if (mentionedMessageIds != null) {
+      if (this.mentionedMessageIds != null) this.mentionedMessageIds.clear();
+      else this.mentionedMessageIds = new ArrayList<String>();
+      this.mentionedMessageIds.addAll(mentionedMessageIds);
+    }
   }
 
   public String getEmail() {
@@ -35,6 +35,7 @@ public class User {
   }
 
   public void addMention(String messageId) {
+    if (mentionedMessageIds == null) mentionedMessageIds = new ArrayList<String>();
     if (mentionedMessageIds.contains(messageId) == false) mentionedMessageIds.add(messageId);
   }
 }
