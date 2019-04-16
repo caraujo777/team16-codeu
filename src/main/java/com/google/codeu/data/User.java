@@ -35,6 +35,7 @@ public class User {
   }
 
   public void addMention(String messageId) {
+
     if (mentionedMessageIds == null) mentionedMessageIds = new ArrayList<String>();
     if (mentionedMessageIds.contains(messageId) == false) mentionedMessageIds.add(messageId);
   }
