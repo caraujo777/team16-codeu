@@ -119,7 +119,6 @@ public class Datastore {
     userEntity.setProperty("aboutMe", user.getAboutMe());
     userEntity.setProperty("mentions", user.getMentions());
     userEntity.setProperty("imageUrl", user.getImageUrl());
-    }
     datastore.put(userEntity);
   }
 
