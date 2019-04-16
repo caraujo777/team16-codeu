@@ -17,6 +17,8 @@
 package com.google.codeu.data;
 
 import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 /** A single message posted by a user. */
 public class Message {
@@ -27,23 +29,38 @@ public class Message {
   private long timestamp;
   private String recipient;
   private float sentimentScore;
+  private List tags;
 
   /**
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
    * random ID and uses the current system time for the creation time.
    */
   public Message(String user, String text, String recipient, float sentimentScore) {
-    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore);
+    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, null);
+  }
+
+  public Message(String user, String text, String recipient, float sentimentScore, List tags) {
+    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, tags);
   }
 
   public Message(
       UUID id, String user, String text, long timestamp, String recipient, float sentimentScore) {
+    this(id, user, text, timestamp, recipient, sentimentScore, null);
+  }
+
+  public Message(
+      UUID id, String user, String text, long timestamp, String recipient, float sentimentScore, List tags) {
     this.id = id;
     this.user = user;
     this.text = text;
     this.timestamp = timestamp;
     this.recipient = recipient;
     this.sentimentScore = sentimentScore;
+    if (tags != null) {
+      if (this.tags != null) this.tags.clear();
+      else this.tags = new ArrayList<String>();
+      this.tags.addAll(tags);
+    }
   }
 
   public UUID getId() {
@@ -68,5 +85,10 @@ public class Message {
 
   public float getSentimentScore() {
     return sentimentScore;
+  }
+
+  public void addTag(String tag) {
+    if (tags == null) tags = new ArrayList<String>();
+    if (tags.contains(tag) == false) tags.add(tag);
   }
 }
