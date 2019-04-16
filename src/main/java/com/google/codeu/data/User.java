@@ -5,9 +5,8 @@ import java.util.List;
 
 public class User {
 
-  private String email, aboutMe;
-  private List<String> mentionedMessageIds;
   private String email, aboutMe, imageUrl;
+  private List<String> mentionedMessageIds;
 
   public User(String email, String aboutMe) {
     this(email, aboutMe, null);
