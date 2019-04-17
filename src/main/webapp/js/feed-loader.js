@@ -84,44 +84,39 @@ function buildMessageDiv(message){
  const imageDiv = document.createElement('div');
  imageDiv.classList.add("post-img");
 
-//  const image = document.createElement('div');
-//  image.classList.add("post-img");
-//
-if(message.imageUrl) {
-imageDiv.innerHTML += '<br/>';
-imageDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
-}
+ if(message.imageUrl) {
+   imageDiv.innerHTML += '<br/>';
+   imageDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
+ }
 
-// postProfile.appendChild(imageDiv);
+ const postProfileImage = document.createElement('div');
+ postProfileImage.classList.add("post-profile-img");
+ const postProfileImageSrc = document.createElement('div');
+ postProfileImageSrc.classList.add("post-profile-img-src");
 
+const url = '/about?user=' + message.user;
+fetch(url)
+       .then((response) => {
+         return response.text();
+       })
+       .then((user) => {
+         parsedUser = JSON.parse(user)
+         console.log(parsedUser);
+         if(parsedUser.imageUrl) {
+           postProfileImageSrc.innerHTML += '<br/>';
+           postProfileImageSrc.innerHTML += '<img src="' + parsedUser.imageUrl + '" />';
+         }
+   });
 
+ postProfileImage.appendChild(postProfileImageSrc);
  postProfile.appendChild(usernameDiv);
+ postProfile.appendChild(postProfileImage);
  post.appendChild(postProfile);
  post.appendChild(text);
-post.appendChild(imageDiv);
+ post.appendChild(imageDiv);
+
  return post;
 
- // const imageDiv = document.createElement('')
- //
- // const timeDiv = document.createElement('div');
- // timeDiv.classList.add('right-align');
- // timeDiv.appendChild(document.createTextNode(new Date(message.timestamp)));
- //
- // const headerDiv = document.createElement('div');
- // headerDiv.classList.add('message-header');
- // headerDiv.appendChild(usernameDiv);
- // headerDiv.appendChild(timeDiv);
- //
- // const bodyDiv = document.createElement('div');
- // bodyDiv.classList.add('message-body');
- // bodyDiv.appendChild(document.createTextNode(message.text));
- //
- // const messageDiv = document.createElement('div');
- // messageDiv.classList.add("message-div");
- // messageDiv.appendChild(headerDiv);
- // messageDiv.appendChild(bodyDiv);
- //
- // return messageDiv;
 }
 
 // Fetch data and populate the UI of the page.
