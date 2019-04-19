@@ -22,11 +22,13 @@ limitations under the License.
     <link rel="stylesheet" href="/css/main.css">
     <script src="/js/navigation-loader.js"></script>
   </head>
-  <body onload="addLoginOrLogoutLinkToNavigation();">
+  <body>
     <nav>
       <ul id="navigation">
-        <li><a href="/">Home</a></li>
-	<li><a href=about.html>About</a></li>
+        <div id="navigation-container" class="clearfix">
+          <li><a href="feed.html">Feed</a></li>
+  	      <li><a href="about.html">About</a></li>
+        </div>
       </ul>
     </nav>
     <h1>CodeU Starter Project</h1>
@@ -37,4 +39,7 @@ limitations under the License.
     You could start by modifying this page to tell the world more about your team.</p>
    </p>
   </body>
+  <script>
+    addLoginOrLogoutLinkToNavigation()
+  </script>
 </html>
