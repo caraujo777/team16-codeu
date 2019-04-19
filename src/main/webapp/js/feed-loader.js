@@ -93,4 +93,7 @@ function buildMessageDiv(message){
 function buildUI(){
  fetchMessages();
  showMessageFormIfLoggedIn();
+ const config = {removePlugins: ['Heading', 'List', 'ImageUpload', 'Table', 'MediaEmbed']};
+ ClassicEditor.create(document.getElementById('message-input'), config);
+ ClassicEditor.create(document.getElementById('about-me-input'), config);
 }
