@@ -10,6 +10,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
 
+/*
+Creates SFLocation objects used in creating an SF map; connected to 
+sfdata.csv
+NOTE to self - Not currently used for sfmaps.html
+*/
+
 @WebServlet("/sfdata")
 public class SfMapsServlet extends HttpServlet {
 
