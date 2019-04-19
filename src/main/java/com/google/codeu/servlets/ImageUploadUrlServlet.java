@@ -18,7 +18,14 @@ public class ImageUploadUrlServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    String uploadUrl = blobstoreService.createUploadUrl("/messages");
+    String callParam = request.getParameter("call");
+    String uploadUrl = "";
+    if(callParam.contains("feed")) {
+    	uploadUrl = blobstoreService.createUploadUrl("/feed");
+    }
+    else {
+    	uploadUrl = blobstoreService.createUploadUrl("/messages");
+    }
 
     response.setContentType("text/html");
     response.getOutputStream().println(uploadUrl);
