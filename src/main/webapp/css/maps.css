@@ -5,7 +5,9 @@ Created: 03/10/19
 Last Updated: 03/10/19
 */
 #map{
-    width: 500px;
+   width: 500px;
     height: 500px;
     border: thin solid black;
+    margin-left: auto;
+    margin-right:auto;
   }
