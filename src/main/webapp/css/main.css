@@ -15,7 +15,7 @@
  */
 
 body {
- max-width: match-parent;
+ max-width: 100%;
  font-family: Roboto;
  background-color: #F4F4F4;
 }
