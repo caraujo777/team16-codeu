@@ -14,6 +14,35 @@
  * limitations under the License.
  */
 
+function fetchImageUploadUrlAndShowForm() {
+  fetch('/image-upload-url?call=feed')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const messageForm = document.getElementById('message-form');
+        messageForm.action = imageUploadUrl;
+        messageForm.classList.remove('hidden');
+      });
+}
+
+/**
+ * Shows the message form if the user is logged in
+ */
+function showMessageFormIfLoggedIn() {
+  fetch('/login-status')
+      .then((response) => {
+        return response.json();
+      })
+      .then((loginStatus) => {
+        if (loginStatus.isLoggedIn) {
+          const messageForm = document.getElementById('message-form');
+          messageForm.classList.remove('hidden');
+          fetchImageUploadUrlAndShowForm();
+        }
+      });
+}
+
 // Fetch messages and add them to the page.
 function fetchMessages(){
   const url = '/feed';
@@ -86,8 +115,11 @@ fetch(url)
  return post;
 
 }
-
 // Fetch data and populate the UI of the page.
 function buildUI(){
  fetchMessages();
+ showMessageFormIfLoggedIn();
+ const config = {removePlugins: ['Heading', 'List', 'ImageUpload', 'Table', 'MediaEmbed']};
+ ClassicEditor.create(document.getElementById('message-input'), config);
+ ClassicEditor.create(document.getElementById('about-me-input'), config);
 }
