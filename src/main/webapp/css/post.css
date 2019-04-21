@@ -12,6 +12,7 @@
   height: 15%;
   width: 500px;
   margin-bottom: 30px;
+  display: inline-block;
 }
 
 .post-profile-img {
