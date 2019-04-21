@@ -14,35 +14,6 @@
  * limitations under the License.
  */
 
-function fetchImageUploadUrlAndShowForm() {
-  fetch('/image-upload-url?call=feed')
-      .then((response) => {
-        return response.text();
-      })
-      .then((imageUploadUrl) => {
-        const messageForm = document.getElementById('message-form');
-        messageForm.action = imageUploadUrl;
-        messageForm.classList.remove('hidden');
-      });
-}
-
-/**
- * Shows the message form if the user is logged in
- */
-function showMessageFormIfLoggedIn() {
-  fetch('/login-status')
-      .then((response) => {
-        return response.json();
-      })
-      .then((loginStatus) => {
-        if (loginStatus.isLoggedIn) {
-          const messageForm = document.getElementById('message-form');
-          messageForm.classList.remove('hidden');
-          fetchImageUploadUrlAndShowForm();
-        }
-      });
-}
-
 // Fetch messages and add them to the page.
 function fetchMessages(){
   const url = '/feed';
@@ -81,18 +52,16 @@ function buildMessageDiv(message){
  text.classList.add("text");
  text.innerHTML = message.text;
 
- const imageDiv = document.createElement('div');
- imageDiv.classList.add("post-img");
-
- if(message.imageUrl) {
-   imageDiv.innerHTML += '<br/>';
-   imageDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
- }
-
  const postProfileImage = document.createElement('div');
  postProfileImage.classList.add("post-profile-img");
- const postProfileImageSrc = document.createElement('div');
- postProfileImageSrc.classList.add("post-profile-img-src");
+
+ const postImage = document.createElement('div');
+ postImage.classList.add("post-img");
+
+ if(message.imageUrl) {
+   postImage.innerHTML += '<br/>';
+   postImage.innerHTML += '<img src="' + message.imageUrl + '"/>';
+ }
 
 const url = '/about?user=' + message.user;
 fetch(url)
@@ -103,17 +72,16 @@ fetch(url)
          parsedUser = JSON.parse(user)
          console.log(parsedUser);
          if(parsedUser.imageUrl) {
-           postProfileImageSrc.innerHTML += '<br/>';
-           postProfileImageSrc.innerHTML += '<img src="' + parsedUser.imageUrl + '" />';
+           postProfileImage.innerHTML += '<br/>';
+           postProfileImage.innerHTML += '<img src="' + parsedUser.imageUrl + '" class="post-profile-img-src" />';
          }
    });
 
- postProfileImage.appendChild(postProfileImageSrc);
- postProfile.appendChild(usernameDiv);
  postProfile.appendChild(postProfileImage);
+ postProfile.appendChild(usernameDiv);
  post.appendChild(postProfile);
  post.appendChild(text);
- post.appendChild(imageDiv);
+ post.appendChild(postImage);
 
  return post;
 
@@ -122,8 +90,4 @@ fetch(url)
 // Fetch data and populate the UI of the page.
 function buildUI(){
  fetchMessages();
- showMessageFormIfLoggedIn();
- const config = {removePlugins: ['Heading', 'List', 'ImageUpload', 'Table', 'MediaEmbed']};
- ClassicEditor.create(document.getElementById('message-input'), config);
- ClassicEditor.create(document.getElementById('about-me-input'), config);
 }
