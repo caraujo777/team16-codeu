@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+const urlParams = new URLSearchParams(window.location.search);
+
 function fetchImageUploadUrlAndShowForm() {
   fetch('/image-upload-url?call=feed')
       .then((response) => {
@@ -45,7 +47,11 @@ function showMessageFormIfLoggedIn() {
 
 // Fetch messages and add them to the page.
 function fetchMessages(){
-  const url = '/feed';
+  const parameterTag = urlParams.get('tag');
+  let url = '/feed';
+  if (parameterTag != null) {
+    url += '?tag=' + parameterTag;
+  }
   fetch(url).then((response) => {
     return response.json();
   }).then((messages) => {
@@ -80,13 +86,20 @@ function buildMessageDiv(message){
  text.classList.add("post-text");
  text.classList.add("text");
 
- var regex = /@(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
- var found = regex.exec(message.text)
- while (found != null) {
+ var regex = /@(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g;
+ var found;
+ while ((found = regex.exec(message.text)) !== null) {
    var foundEmail = found[0].substring(1);  
    message.text = message.text.replace(found[0], foundEmail.fontcolor("red").link("/user-page.html?user=" + foundEmail));
-   found = regex.exec(message.text);
  }
+
+ regex = /\B\#[a-zA-Z]+\b(?!;)/g
+ var found;
+ while ((found = regex.exec(message.text)) !== null) {
+  var foundTag = found[0].substring(1);
+  message.text = message.text.replace(found[0], "<a href=\"/feed.html?tag=" + foundTag + "\"><font color=\"blue\">" + foundTag + "</font></a>");
+}
+
  text.innerHTML = message.text;
 
  const postProfileImage = document.createElement('div');
