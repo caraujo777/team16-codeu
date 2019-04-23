@@ -4,17 +4,57 @@
     <meta charset="UTF-8">
     <title>CodeU 2019 Starter Project</title>
     <link rel="stylesheet" href="/css/main.css">
+    <script src="/js/navigation-loader.js"></script>
   </head>
   <body>
     <nav>
       <ul id="navigation">
-        <li><a href="/">Home</a></li>
+        <div id="navigation-container" class="clearfix">
+          <li><a href="feed.html">Feed</a></li>
+          <li class="active"><a href="about.html">About</a></li>
+          <li><a href="sfmaps.html">Map</a></li>
+        </div>
       </ul>
     </nav>
-    <h1>About Us</h1>
-    <p>Oscar sleeps all the time.</p>
-    <p>Anna loves sloths.</p>
-    <p>Pablo has fun with synthesizers.</p>
-    <p>Cintia's dream is to have a Corgi.</p>
+    <h1>We Want It We Git It!</h1>
+    <div>
+      <div>
+        <img height="600px" width = "600px" src="https://i.imgur.com/3zMuSzJ.jpg"</img>
+      </div>
+      <div>
+        <h2>Oscar Garcia</h2>
+        <p>Sleeps all the time</p>
+        <h2>Pablo Andrade</h2>
+        <p>Has fun with synthesizers</p>
+        <h2>Cintia Araujo</h2>
+        <p>Her dream is to have a Corgi</p>
+        <h2>Anna Kawakami</h2>
+        <p>Loves sloths</p>
+        <h2>Gaurav Mishra</h2>
+        <p>Gaurav is our amazing PA!!!</p>
+      </div>
+      <div>
+        <img src="Pics/IMG-2867.JPG" alt="Team-16">
+      </div>
+    </div>
+    <h1>Site features:</h1>
+      <h2>Posts</h2>
+        <ul>
+          <li>Style text with markdown</li>
+          <li>Style text with rich text editor</li>
+          <li>Add images uploading to datastore (submit button)</li>
+          <li>Add images with link to page</li>
+        </ul>
+      <h2>Maps</h2>
+        <ul>
+          <li>Tell your friends where you are at!</li>
+        </ul>
+      <h2>Mentions</h2>
+        <ul>
+          <li>Post a friend in feed with format "@username@something.x"</li>
+        </ul>
   </body>
+  <script>
+    addLoginOrLogoutLinkToNavigation()
+  </script>
 </html>

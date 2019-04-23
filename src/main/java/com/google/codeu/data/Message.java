@@ -96,7 +96,7 @@ public class Message {
   public void addTag(String tag) {
     if (tags == null) tags = new ArrayList<String>();
     if (tags.contains(tag) == false) tags.add(tag);
-}
+  }
 
   public void setImageUrl(String imageUrl) {
     this.imageUrl = imageUrl;

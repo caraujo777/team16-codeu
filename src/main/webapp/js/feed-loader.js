@@ -14,6 +14,35 @@
  * limitations under the License.
  */
 
+function fetchImageUploadUrlAndShowForm() {
+  fetch('/image-upload-url?call=feed')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const messageForm = document.getElementById('message-form');
+        messageForm.action = imageUploadUrl;
+        messageForm.classList.remove('hidden');
+      });
+}
+
+/**
+ * Shows the message form if the user is logged in
+ */
+function showMessageFormIfLoggedIn() {
+  fetch('/login-status')
+      .then((response) => {
+        return response.json();
+      })
+      .then((loginStatus) => {
+        if (loginStatus.isLoggedIn) {
+          const messageForm = document.getElementById('message-form');
+          messageForm.classList.remove('hidden');
+          fetchImageUploadUrlAndShowForm();
+        }
+      });
+}
+
 // Fetch messages and add them to the page.
 function fetchMessages(){
   const url = '/feed';
@@ -35,32 +64,62 @@ function fetchMessages(){
 }
 
 function buildMessageDiv(message){
+
+ const post = document.createElement('div');
+ post.classList.add("post");
+
+ const postProfile = document.createElement('div');
+ post.classList.add("post-profile");
+
  const usernameDiv = document.createElement('div');
- usernameDiv.classList.add("left-align");
+ usernameDiv.classList.add("post-profile-name");
+ usernameDiv.classList.add("text-box");
  usernameDiv.appendChild(document.createTextNode(message.user));
 
- const timeDiv = document.createElement('div');
- timeDiv.classList.add('right-align');
- timeDiv.appendChild(document.createTextNode(new Date(message.timestamp)));
+ const text = document.createElement('div');
+ text.classList.add("post-text");
+ text.classList.add("text");
+ text.innerHTML = message.text;
 
- const headerDiv = document.createElement('div');
- headerDiv.classList.add('message-header');
- headerDiv.appendChild(usernameDiv);
- headerDiv.appendChild(timeDiv);
+ const postProfileImage = document.createElement('div');
+ postProfileImage.classList.add("post-profile-img");
 
- const bodyDiv = document.createElement('div');
- bodyDiv.classList.add('message-body');
- bodyDiv.appendChild(document.createTextNode(message.text));
+ const postImage = document.createElement('div');
+ postImage.classList.add("post-img");
 
- const messageDiv = document.createElement('div');
- messageDiv.classList.add("message-div");
- messageDiv.appendChild(headerDiv);
- messageDiv.appendChild(bodyDiv);
+ if(message.imageUrl) {
+   postImage.innerHTML += '<br/>';
+   postImage.innerHTML += '<img src="' + message.imageUrl + '"/>';
+ }
 
- return messageDiv;
+const url = '/about?user=' + message.user;
+fetch(url)
+       .then((response) => {
+         return response.text();
+       })
+       .then((user) => {
+         parsedUser = JSON.parse(user)
+         console.log(parsedUser);
+         if(parsedUser.imageUrl) {
+           postProfileImage.innerHTML += '<br/>';
+           postProfileImage.innerHTML += '<img src="' + parsedUser.imageUrl + '" class="post-profile-img-src" />';
+         }
+   });
+
+ postProfile.appendChild(postProfileImage);
+ postProfile.appendChild(usernameDiv);
+ post.appendChild(postProfile);
+ post.appendChild(text);
+ post.appendChild(postImage);
+
+ return post;
+
 }
-
 // Fetch data and populate the UI of the page.
 function buildUI(){
  fetchMessages();
+ showMessageFormIfLoggedIn();
+ const config = {removePlugins: ['Heading', 'List', 'ImageUpload', 'Table', 'MediaEmbed']};
+ ClassicEditor.create(document.getElementById('message-input'), config);
+ ClassicEditor.create(document.getElementById('about-me-input'), config);
 }

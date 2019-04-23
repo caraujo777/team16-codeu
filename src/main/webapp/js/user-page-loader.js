@@ -40,7 +40,6 @@ function showMessageFormIfLoggedIn() {
       .then((loginStatus) => {
         if (loginStatus.isLoggedIn) {
           const messageForm = document.getElementById('message-form');
-          messageForm.action = '/messages?recipient=' + parameterUsername;
           messageForm.classList.remove('hidden');
           if (loginStatus.username == parameterUsername) {
             const aboutMeForm = document.getElementById('about-me-form');
@@ -132,6 +131,7 @@ function fetchAboutMe() {
 function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
+  headerDiv.classList.add('padded');
   var my_message = message.user + ' - ' + new Date(message.timestamp) +
       ' Sentiment Score: [' + message.sentimentScore + ']';
   headerDiv.appendChild(document.createTextNode(my_message));
@@ -153,6 +153,8 @@ function buildMessageDiv(message) {
 
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message-div');
+  messageDiv.classList.add('rounded');
+  messageDiv.classList.add('panel');
   messageDiv.appendChild(headerDiv);
   messageDiv.appendChild(bodyDiv);
 
