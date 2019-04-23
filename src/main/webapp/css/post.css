@@ -70,6 +70,7 @@
   position: relative;
   border-radius: 50%;
   background-color: #FF4C70;
+  cursor: pointer;
 }
 
 .post-img-map {
