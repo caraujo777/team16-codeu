@@ -48,6 +48,7 @@
   height: 65%;
   width: 100%;
   overflow: hidden;
+  display: inline-block;
 }
 
 .post-img-src {
@@ -60,10 +61,10 @@
 }
 
 .post-img-map {
-  height: 17%;
-  width: 9%;
-  margin-left: 89%;
-  margin-top: 42%;
+  height: 70px;
+  width: 70px;
+  left: 83%;
+  top: 10px;
   z-index: 1;
   box-shadow: 1px 1px 8px grey;
   position: relative;

@@ -108,8 +108,14 @@ function buildMessageDiv(message){
  const imageDiv = document.createElement('div');
  imageDiv.classList.add("post-img");
 
+ var mapDiv;
  if(message.imageUrl) {
    imageDiv.innerHTML += '<img class = "post-img-src" src="' + message.imageUrl + '" />';
+   mapDiv = document.createElement('div');
+   mapDiv.classList.add("post-img-map");
+   mapDiv.classList.add("box");
+   mapDiv.onclick = function () { window.location.href = "sfmaps.html"; };
+   imageDiv.appendChild(mapDiv);
  }
 
 const url = '/about?user=' + message.user;
