@@ -60,13 +60,25 @@
   position:relative;
 }
 
+.post-img-map:hover {
+  height: 70px;
+  width: 70px;
+  left: 83%;
+  top: 10px;
+  z-index: 1;
+  box-shadow: 1px 1px 12px black;
+  position: relative;
+  border-radius: 50%;
+  background-color: #FF4C70;
+}
+
 .post-img-map {
   height: 70px;
   width: 70px;
   left: 83%;
   top: 10px;
   z-index: 1;
-  box-shadow: 1px 1px 8px grey;
+  box-shadow: 1px 1px 8px black;
   position: relative;
   border-radius: 50%;
   background-color: #FF4C70;
