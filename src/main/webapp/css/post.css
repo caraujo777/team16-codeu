@@ -19,8 +19,11 @@
 
 .post-profile-img {
   height: auto;
+  max-height: 50px;
   width: 10%;
   float:left;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 .post-profile-name {
@@ -34,7 +37,6 @@
 .post-profile-img-src {
   height: 100%;
   width: 100%;
-  border-radius: 50%;
 }
 
 .post-text {
