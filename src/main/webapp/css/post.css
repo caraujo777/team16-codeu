@@ -1,11 +1,13 @@
 .post {
-  height: 400px;
+  height: auto;
   width: 500px;
   background-color: #F4F0E1;
   box-shadow: 1px 1px 10px grey;
   position: relative;
   z-index: 0;
   padding: 3% 3% 3% 3%;
+  margin: auto;
+  margin-bottom: 3%;
 }
 
 .post-profile {
@@ -17,8 +19,11 @@
 
 .post-profile-img {
   height: auto;
+  max-height: 50px;
   width: 10%;
   float:left;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 .post-profile-name {
@@ -32,7 +37,6 @@
 .post-profile-img-src {
   height: 100%;
   width: 100%;
-  border-radius: 50%;
 }
 
 .post-text {
@@ -44,6 +48,7 @@
   height: 65%;
   width: 100%;
   overflow: hidden;
+  display: inline-block;
 }
 
 .post-img-src {
@@ -55,13 +60,26 @@
   position:relative;
 }
 
-.post-img-map {
-  height: 17%;
-  width: 9%;
-  margin-left: 89%;
-  margin-top: 42%;
+.post-img-map:hover {
+  height: 70px;
+  width: 70px;
+  left: 83%;
+  top: 10px;
   z-index: 1;
-  box-shadow: 1px 1px 8px grey;
+  box-shadow: 1px 1px 12px black;
+  position: relative;
+  border-radius: 50%;
+  background-color: #FF4C70;
+  cursor: pointer;
+}
+
+.post-img-map {
+  height: 70px;
+  width: 70px;
+  left: 83%;
+  top: 10px;
+  z-index: 1;
+  box-shadow: 1px 1px 8px black;
   position: relative;
   border-radius: 50%;
   background-color: #FF4C70;

@@ -70,18 +70,21 @@ function fetchMessages(){
 }
 
 function buildMessageDiv(message){
-
+ //1
  const post = document.createElement('div');
  post.classList.add("post");
-
+ //2
  const postProfile = document.createElement('div');
- post.classList.add("post-profile");
-
+ postProfile.classList.add("post-profile");
+ //3
+ const postProfileImage = document.createElement('div');
+ postProfileImage.classList.add("post-profile-img");
+ //3
  const usernameDiv = document.createElement('div');
  usernameDiv.classList.add("post-profile-name");
  usernameDiv.classList.add("text-box");
  usernameDiv.appendChild(document.createTextNode(message.user));
-
+ //2
  const text = document.createElement('div');
  text.classList.add("post-text");
  text.classList.add("text");
@@ -89,7 +92,7 @@ function buildMessageDiv(message){
  var regex = /@(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g;
  var found;
  while ((found = regex.exec(message.text)) !== null) {
-   var foundEmail = found[0].substring(1);  
+   var foundEmail = found[0].substring(1);
    message.text = message.text.replace(found[0], foundEmail.fontcolor("red").link("/user-page.html?user=" + foundEmail));
  }
 
@@ -101,16 +104,18 @@ function buildMessageDiv(message){
 }
 
  text.innerHTML = message.text;
+ //2
+ const imageDiv = document.createElement('div');
+ imageDiv.classList.add("post-img");
 
- const postProfileImage = document.createElement('div');
- postProfileImage.classList.add("post-profile-img");
-
- const postImage = document.createElement('div');
- postImage.classList.add("post-img");
-
+ var mapDiv;
  if(message.imageUrl) {
-   postImage.innerHTML += '<br/>';
-   postImage.innerHTML += '<img src="' + message.imageUrl + '"/>';
+   imageDiv.innerHTML += '<img class = "post-img-src" src="' + message.imageUrl + '" />';
+   mapDiv = document.createElement('div');
+   mapDiv.classList.add("post-img-map");
+   mapDiv.classList.add("box");
+   mapDiv.onclick = function () { window.location.href = "sfmaps.html"; };
+   imageDiv.appendChild(mapDiv);
  }
 
 const url = '/about?user=' + message.user;
@@ -122,16 +127,15 @@ fetch(url)
          parsedUser = JSON.parse(user)
          console.log(parsedUser);
          if(parsedUser.imageUrl) {
-           postProfileImage.innerHTML += '<br/>';
-           postProfileImage.innerHTML += '<img src="' + parsedUser.imageUrl + '" class="post-profile-img-src" />';
+           postProfileImage.innerHTML += '<img class = "post-profile-img-src" src="' + parsedUser.imageUrl + '" />';
          }
    });
 
- postProfile.appendChild(postProfileImage);
- postProfile.appendChild(usernameDiv);
  post.appendChild(postProfile);
  post.appendChild(text);
- post.appendChild(postImage);
+ post.appendChild(imageDiv);
+ postProfile.appendChild(postProfileImage);
+ postProfile.appendChild(usernameDiv);
 
  return post;
 

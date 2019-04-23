@@ -84,3 +84,6 @@ nav li a:hover:not(.active) {
   text-align: center;
 }
 
+.input {
+  max-width: 50%;
+}
