@@ -98,6 +98,11 @@ public class Message {
     if (tags.contains(tag) == false) tags.add(tag);
   }
 
+  public List getTags() {
+    if (tags != null) return tags;
+    else return new ArrayList<String>();
+  }
+
   public void setImageUrl(String imageUrl) {
     this.imageUrl = imageUrl;
   }

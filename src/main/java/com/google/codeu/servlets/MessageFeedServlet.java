@@ -61,7 +61,11 @@ public class MessageFeedServlet extends HttpServlet {
 
     response.setContentType("application/json");
 
-    List<Message> messages = datastore.getAllMessages();
+    String tag = request.getParameter("tag");
+    List<Message> messages;  
+    
+    if (tag != null && tag != "") messages = datastore.getTaggedMessages(tag);
+    else messages = datastore.getAllMessages();
     Gson gson = new Gson();
     String json = gson.toJson(messages);
 
@@ -99,14 +103,21 @@ public class MessageFeedServlet extends HttpServlet {
     Pattern emailRegex =
         Pattern.compile(
             "@(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
-    Matcher matcher = emailRegex.matcher(textWithImagesReplaced);
-    while (matcher.find()) {
-      User curUser = datastore.getUser(matcher.group(0).substring(1));
-      if (curUser == null) curUser = new User(matcher.group(0).substring(1), "");
+    Matcher emailMatcher = emailRegex.matcher(textWithImagesReplaced);
+    while (emailMatcher.find()) {
+      User curUser = datastore.getUser(emailMatcher.group(0).substring(1));
+      if (curUser == null) curUser = new User(emailMatcher.group(0).substring(1), "");
       curUser.addMention(message.getId().toString());
       datastore.storeUser(curUser);
     }
-
+    
+    Pattern tagRegex = Pattern.compile("\\B\\#[a-zA-Z]+\\b(?!;)");
+    Matcher tagMatcher = tagRegex.matcher(textWithImagesReplaced);
+    while (tagMatcher.find()) {
+      message.addTag(tagMatcher.group(0).substring(1));
+      System.out.println(message.getTags());
+    }
+    
     if(blobKeys != null && !blobKeys.isEmpty()) {
       BlobKey blobKey = blobKeys.get(0);
       ImagesService imagesService = ImagesServiceFactory.getImagesService();

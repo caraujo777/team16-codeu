@@ -48,6 +48,9 @@ public class Datastore {
     if(message.getImageUrl() != null) {
       messageEntity.setProperty("imageUrl", message.getImageUrl());
     }
+    if(!message.getTags().isEmpty()) {
+      messageEntity.setProperty("tags", message.getTags());
+    }
     datastore.put(messageEntity);
   }
 
@@ -69,7 +72,8 @@ public class Datastore {
        String recipient = (String) entity.getProperty("recipient");
        float sentimentScore = entity.getProperty("sentimentScore") == null? (float) 0.0 : ((Double) entity.getProperty("sentimentScore")).floatValue();
        String imageUrl = (String) entity.getProperty("imageUrl");
- 	    Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
+       ArrayList tags = (ArrayList) entity.getProperty("tags");
+ 	    Message message = new Message(id, user, text, timestamp, recipient, sentimentScore, tags);
  	    message.setImageUrl(imageUrl);
        messages.add(message);
       } catch (Exception e) {
@@ -94,6 +98,18 @@ public class Datastore {
         new Query("Message")
             .setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
             .addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    return getMessagesFromResults(results);
+  }
+
+  public List<Message> getTaggedMessages(String tag) {
+    List<Message> messages = new ArrayList<>();
+
+    Query query = 
+        new Query("Message")
+          .setFilter(new Query.FilterPredicate("tags", FilterOperator.EQUAL, tag))
+          .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
     return getMessagesFromResults(results);
