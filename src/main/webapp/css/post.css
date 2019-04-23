@@ -1,11 +1,13 @@
 .post {
-  height: 400px;
+  height: auto;
   width: 500px;
   background-color: #F4F0E1;
   box-shadow: 1px 1px 10px grey;
   position: relative;
   z-index: 0;
   padding: 3% 3% 3% 3%;
+  margin: auto;
+  margin-bottom: 3%;
 }
 
 .post-profile {
