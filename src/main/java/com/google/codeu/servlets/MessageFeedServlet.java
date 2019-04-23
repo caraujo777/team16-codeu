@@ -115,7 +115,6 @@ public class MessageFeedServlet extends HttpServlet {
     Matcher tagMatcher = tagRegex.matcher(textWithImagesReplaced);
     while (tagMatcher.find()) {
       message.addTag(tagMatcher.group(0).substring(1));
-      System.out.println(message.getTags());
     }
     
     if(blobKeys != null && !blobKeys.isEmpty()) {

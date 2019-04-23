@@ -91,7 +91,6 @@ function buildMessageDiv(message){
  while ((found = regex.exec(message.text)) !== null) {
    var foundEmail = found[0].substring(1);  
    message.text = message.text.replace(found[0], foundEmail.fontcolor("red").link("/user-page.html?user=" + foundEmail));
-   //regex.lastIndex(regex.lastIndex + )
  }
 
  regex = /\B\#[a-zA-Z]+\b(?!;)/g
@@ -99,8 +98,6 @@ function buildMessageDiv(message){
  while ((found = regex.exec(message.text)) !== null) {
   var foundTag = found[0].substring(1);
   message.text = message.text.replace(found[0], "<a href=\"/feed.html?tag=" + foundTag + "\"><font color=\"blue\">" + foundTag + "</font></a>");
-  console.log(regex.lastIndex);
-  //regex.lastIndex = regex.LastIndex + found[0].length + 56;
 }
 
  text.innerHTML = message.text;
