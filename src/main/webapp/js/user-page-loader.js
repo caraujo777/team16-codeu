@@ -99,6 +99,8 @@ function fetchMessages() {
           const messageDiv = buildMessageDiv(message);
           messagesContainer.appendChild(messageDiv);
         });
+        const messagesContainerContainer = document.getElementById('message-container-container');
+        messagesContainerContainer.appendChild(messagesContainer);
       });
 }
 
@@ -140,6 +142,7 @@ function buildMessageDiv(message) {
   //1
   const post = document.createElement('div');
   post.classList.add("post");
+  post.classList.add("align-right");
   //2
   const postProfile = document.createElement('div');
   postProfile.classList.add("post-profile");

@@ -2,6 +2,15 @@ img {
   width: 100%;
 }
 
+.align-right {
+  margin-left: auto;
+}
+
+.profile-posts-container {
+  overflow-y: scroll;
+  height: 400px;"
+}
+
 .post {
   height: auto;
   width: 500px;
@@ -12,6 +21,7 @@ img {
   padding: 3% 3% 3% 3%;
   margin: auto;
   margin-bottom: 3%;
+  top: 10px;
 }
 
 .post-profile {
