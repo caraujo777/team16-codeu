@@ -85,6 +85,15 @@
   background-color: #FF4C70;
 }
 
+.post-img-map-icon {
+  height: 80%;
+  width: 80%;
+  left: 10%;
+  top: 10%;
+  z-index: 2;
+  position: absolute;
+}
+
 .box {
   box-sizing:border-box;
 }
