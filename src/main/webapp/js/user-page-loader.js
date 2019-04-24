@@ -52,7 +52,7 @@ function showMessageFormIfLoggedIn() {
 }
 
 function fetchImageUploadUrlAndShowForm() {
-  fetch('/image-upload-url')
+  fetch('/image-upload-url?call=profile')
       .then((response) => {
         return response.text();
       })
