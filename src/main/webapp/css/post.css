@@ -3,12 +3,23 @@ img {
 }
 
 .align-right {
-  margin-left: auto;
+
 }
 
 .profile-posts-container {
   overflow-y: scroll;
-  height: 400px;"
+  height: 1000px;
+  width: 60%;
+}
+
+.profile-divider {
+  width: 100%;
+  display:inline-flex;
+}
+
+.user-info {
+  float:left;
+  width: 40%;
 }
 
 .post {
