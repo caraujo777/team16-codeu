@@ -20,6 +20,14 @@ body {
  background-color: #F4F4F4;
 }
 
+.languages {
+  display:inline-block;
+}
+
+.language {
+  color: pink;
+}
+
 .doggy-background {
   width: 100%;
   height: 100%;

@@ -216,12 +216,12 @@ function buildMessageDiv(message) {
 function buildLanguageLinks() {
   const userPageUrl = '/user-page.html?user=' + parameterUsername;
   const languagesListElement = document.getElementById('languages');
-  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=en', 'English')));
-  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=zh', 'Chinese')));
-  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=hi', 'Hindi')));
-  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=es', 'Spanish')));
-  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=ar', 'Arabic')));
-  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=ja', 'Japanese')));
+  languagesListElement.appendChild(createListItemLanguage(createLink(userPageUrl + '&language=en', 'English')));
+  languagesListElement.appendChild(createListItemLanguage(createLink(userPageUrl + '&language=zh', 'Chinese')));
+  languagesListElement.appendChild(createListItemLanguage(createLink(userPageUrl + '&language=hi', 'Hindi')));
+  languagesListElement.appendChild(createListItemLanguage(createLink(userPageUrl + '&language=es', 'Spanish')));
+  languagesListElement.appendChild(createListItemLanguage(createLink(userPageUrl + '&language=ar', 'Arabic')));
+  languagesListElement.appendChild(createListItemLanguage(createLink(userPageUrl + '&language=ja', 'Japanese')));
 }
 
 /** Fetches data and populates the UI of the page. */
