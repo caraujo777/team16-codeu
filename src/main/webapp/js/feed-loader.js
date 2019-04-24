@@ -116,6 +116,8 @@ function buildMessageDiv(message){
    mapDiv.classList.add("box");
    mapDiv.onclick = function () { window.location.href = "sfmaps.html"; };
    imageDiv.appendChild(mapDiv);
+   //heyheyhey
+   mapDiv.innerHTML += '<img class = "post-img-map-icon" src="https://image.flaticon.com/icons/svg/67/67347.svg"/>';
  }
 
 const url = '/about?user=' + message.user;
