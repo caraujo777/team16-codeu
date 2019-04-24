@@ -57,6 +57,18 @@ function createListItem(childElement) {
 }
 
 /**
+ * Creates an li element.
+ * @param {Element} childElement
+ * @return {Element} li element
+ */
+function createListItemLanguage(childElement) {
+  const listItemElement = document.createElement('li');
+  listItemElement.appendChild(childElement);
+  listItemElement.className = "language";
+  return listItemElement;
+}
+
+/**
  * Creates an anchor element.
  * @param {string} url
  * @param {string} text

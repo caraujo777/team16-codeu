@@ -1,3 +1,27 @@
+img {
+  width: 100%;
+}
+
+.align-right {
+
+}
+
+.profile-posts-container {
+  overflow-y: scroll;
+  height: 1200px;
+  width: 60%;
+}
+
+.profile-divider {
+  width: 100%;
+  display:inline-flex;
+}
+
+.user-info {
+  float:left;
+  width: 40%;
+}
+
 .post {
   height: auto;
   width: 500px;
@@ -8,6 +32,7 @@
   padding: 3% 3% 3% 3%;
   margin: auto;
   margin-bottom: 3%;
+  top: 10px;
 }
 
 .post-profile {

@@ -52,7 +52,7 @@ function showMessageFormIfLoggedIn() {
 }
 
 function fetchImageUploadUrlAndShowForm() {
-  fetch('/image-upload-url')
+  fetch('/image-upload-url?call=profile')
       .then((response) => {
         return response.text();
       })
@@ -99,6 +99,8 @@ function fetchMessages() {
           const messageDiv = buildMessageDiv(message);
           messagesContainer.appendChild(messageDiv);
         });
+        const messagesContainerContainer = document.getElementById('message-container-container');
+        messagesContainerContainer.appendChild(messagesContainer);
       });
 }
 
@@ -129,47 +131,97 @@ function fetchAboutMe() {
  * @return {Element}
  */
 function buildMessageDiv(message) {
-  const headerDiv = document.createElement('div');
+  /*const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
   headerDiv.classList.add('padded');
   var my_message = message.user + ' - ' + new Date(message.timestamp) +
       ' Sentiment Score: [' + message.sentimentScore + ']';
   headerDiv.appendChild(document.createTextNode(my_message));
   const bodyDiv = document.createElement('div');
-  bodyDiv.classList.add('message-body');
-  var regex = /@(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-  var found = regex.exec(message.text)
-  while (found != null) {
+  bodyDiv.classList.add('message-body');*/
+  //1
+  const post = document.createElement('div');
+  post.classList.add("post");
+  post.classList.add("align-right");
+  //2
+  const postProfile = document.createElement('div');
+  postProfile.classList.add("post-profile");
+  //3
+  const postProfileImage = document.createElement('div');
+  postProfileImage.classList.add("post-profile-img");
+  //3
+  const usernameDiv = document.createElement('div');
+  usernameDiv.classList.add("post-profile-name");
+  usernameDiv.classList.add("text-box");
+  usernameDiv.appendChild(document.createTextNode(message.user));
+  //2
+  const text = document.createElement('div');
+  text.classList.add("post-text");
+  text.classList.add("text");
+
+  var regex = /@(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g;
+  var found;
+  while ((found = regex.exec(message.text)) !== null) {
     var foundEmail = found[0].substring(1);
     message.text = message.text.replace(found[0], foundEmail.fontcolor("red").link("/user-page.html?user=" + foundEmail));
-    found = regex.exec(message.text);
   }
-  bodyDiv.innerHTML = message.text;
 
+  regex = /\B\#[a-zA-Z]+\b(?!;)/g
+  var found;
+  while ((found = regex.exec(message.text)) !== null) {
+   var foundTag = found[0].substring(1);
+   message.text = message.text.replace(found[0], "<a href=\"/feed.html?tag=" + foundTag + "\"><font color=\"blue\">" + foundTag + "</font></a>");
+ }
+
+  text.innerHTML = message.text;
+  //2
+  const imageDiv = document.createElement('div');
+  imageDiv.classList.add("post-img");
+
+  var mapDiv;
   if(message.imageUrl) {
-  bodyDiv.innerHTML += '<br/>';
-  bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
+    imageDiv.innerHTML += '<img class = "post-img-src" src="' + message.imageUrl + '" />';
+    mapDiv = document.createElement('div');
+    mapDiv.classList.add("post-img-map");
+    mapDiv.classList.add("box");
+    mapDiv.onclick = function () { window.location.href = "sfmaps.html"; };
+    imageDiv.appendChild(mapDiv);
+    //heyheyhey
+    mapDiv.innerHTML += '<img class = "post-img-map-icon" src="https://image.flaticon.com/icons/svg/67/67347.svg"/>';
   }
 
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add('message-div');
-  messageDiv.classList.add('rounded');
-  messageDiv.classList.add('panel');
-  messageDiv.appendChild(headerDiv);
-  messageDiv.appendChild(bodyDiv);
+  const url = '/about?user=' + message.user;
+  fetch(url)
+        .then((response) => {
+          return response.text();
+        })
+        .then((user) => {
+          parsedUser = JSON.parse(user)
+          console.log(parsedUser);
+          if(parsedUser.imageUrl) {
+            postProfileImage.innerHTML += '<img class = "post-profile-img-src" src="' + parsedUser.imageUrl + '" />';
+          }
+    });
 
-  return messageDiv;
+  post.appendChild(postProfile);
+  post.appendChild(text);
+  post.appendChild(imageDiv);
+  postProfile.appendChild(postProfileImage);
+  postProfile.appendChild(usernameDiv);
+
+  return post;
+
 }
 
 function buildLanguageLinks() {
   const userPageUrl = '/user-page.html?user=' + parameterUsername;
   const languagesListElement = document.getElementById('languages');
-  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=en', 'English')));
-  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=zh', 'Chinese')));
-  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=hi', 'Hindi')));
-  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=es', 'Spanish')));
-  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=ar', 'Arabic')));
-  languagesListElement.appendChild(createListItem(createLink(userPageUrl + '&language=ja', 'Japanese')));
+  languagesListElement.appendChild(createListItemLanguage(createLink(userPageUrl + '&language=en', 'English')));
+  languagesListElement.appendChild(createListItemLanguage(createLink(userPageUrl + '&language=zh', 'Chinese')));
+  languagesListElement.appendChild(createListItemLanguage(createLink(userPageUrl + '&language=hi', 'Hindi')));
+  languagesListElement.appendChild(createListItemLanguage(createLink(userPageUrl + '&language=es', 'Spanish')));
+  languagesListElement.appendChild(createListItemLanguage(createLink(userPageUrl + '&language=ar', 'Arabic')));
+  languagesListElement.appendChild(createListItemLanguage(createLink(userPageUrl + '&language=ja', 'Japanese')));
 }
 
 /** Fetches data and populates the UI of the page. */
