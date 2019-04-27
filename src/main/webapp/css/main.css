@@ -28,6 +28,11 @@ body {
   color: pink;
 }
 
+.profile-img {
+  width: 200px;
+  height: auto;
+}
+
 .doggy-background {
   width: 100%;
   height: 100%;

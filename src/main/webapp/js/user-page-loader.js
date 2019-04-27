@@ -120,7 +120,7 @@ function fetchAboutMe() {
         aboutMeContainer.innerHTML = parsedUser.aboutMe;
         if(parsedUser.imageUrl) {
           aboutMeContainer.innerHTML += '<br/>';
-          aboutMeContainer.innerHTML += '<img src="' + parsedUser.imageUrl + '" />';
+          aboutMeContainer.innerHTML += '<img class="profile-img" src="' + parsedUser.imageUrl + '" />';
         }
   });
 }
