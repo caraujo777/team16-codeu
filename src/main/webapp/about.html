@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>CodeU 2019 Starter Project</title>
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/about.css">
     <script src="/js/navigation-loader.js"></script>
   </head>
   <body>
@@ -18,33 +19,39 @@
       </ul>
     </nav>
     <h1>We Want It We Git It!</h1>
-    <div>
-      <div>
-        <img height="600px" width = "600px" src="https://i.imgur.com/3zMuSzJ.jpg"</img>
+    <div class="all-team">
+      <div class="team">
+        <div class="team-img">
+          <img class="team-img-src" src="https://i.imgur.com/3zMuSzJ.jpg">
+        </div>
+        <div class="team-info">
+            <h2>Oscar Garcia</h2>
+            <p>Sleeps all the time</p>
+            <h2>Pablo Andrade</h2>
+            <p>Has fun with synthesizers</p>
+            <h2>Cintia Araujo</h2>
+            <p>Her dream is to have a Corgi</p>
+            <h2>Anna Kawakami</h2>
+            <p>Loves sloths</p>
+        </div>
       </div>
-      <div>
-        <h2>Oscar Garcia</h2>
-        <p>Sleeps all the time</p>
-        <h2>Pablo Andrade</h2>
-        <p>Has fun with synthesizers</p>
-        <h2>Cintia Araujo</h2>
-        <p>Her dream is to have a Corgi</p>
-        <h2>Anna Kawakami</h2>
-        <p>Loves sloths</p>
-        <h2>Gaurav Mishra</h2>
-        <p>Gaurav is our amazing PA!!!</p>
-      </div>
-      <div>
-        <img src="Pics/IMG-2867.JPG" alt="Team-16">
+      <div class="pa">
+        <div class="pa-img">
+          <img class="pa-img-src" src="Pics/IMG-2867.JPG" alt="Team-16">
+        </div>
+        <div class="pa-info">
+            <h2>Gaurav Mishra</h2>
+            <p>Gaurav is our amazing PA!!!</p>
+        </div>
       </div>
     </div>
-    <h1>Site features:</h1>
+    <h1 class="left">Site features</h1>
       <h2>Posts</h2>
         <ul>
           <li>Style text with markdown</li>
           <li>Style text with rich text editor</li>
           <li>Add images uploading to datastore (submit button)</li>
-          <li>Add images with link to page</li>
+          <li>Add images with http link (extra images, won't have maps button)</li>
         </ul>
       <h2>Maps</h2>
         <ul>
@@ -52,7 +59,7 @@
         </ul>
       <h2>Mentions</h2>
         <ul>
-          <li>Post a friend in feed with format "@username@something.x"</li>
+          <li>Tag a friend in your post with the format "@username@something.x"</li>
         </ul>
   </body>
   <script>

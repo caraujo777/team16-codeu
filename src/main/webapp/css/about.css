@@ -1,0 +1,48 @@
+.all-team {
+  height:auto;
+  width: 100%
+}
+
+.team {
+  height: 50%;
+  width: 100%;
+  display:inline-flex;
+}
+
+.team-img {
+  width: auto;
+  overflow:hidden;
+  float:left;
+}
+
+.team-img-src {
+  height: auto;
+  width: 90%;
+  max-width:700px;
+}
+
+.team-info {
+
+}
+
+.pa {
+  height: 50%;
+  width: 100%;
+  display:inline-flex;
+}
+
+.pa-img {
+  width: auto;
+  overflow:hidden;
+  float:left;
+}
+
+.pa-img-src {
+  height: auto;
+  width: 90%;
+  max-width:700px;
+}
+
+.pa-info {
+
+}
