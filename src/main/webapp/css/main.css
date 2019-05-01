@@ -24,6 +24,10 @@ body {
   display:inline-block;
 }
 
+.hidden {
+  display: none;
+}
+
 .language {
   color: pink;
 }
